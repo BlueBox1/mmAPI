@@ -1,0 +1,223 @@
+{\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033\deflangfe2052{\fonttbl{\f0\fnil\fcharset0 Calibri;}{\f1\fnil\fcharset0 Tahoma;}{\f2\fnil Consolas;}{\f3\fnil\fcharset0 Consolas;}{\f4\froman\fprq2\fcharset0 Calibri;}{\f5\fnil\fcharset2 Symbol;}}
+{\colortbl ;\red46\green117\blue181;\red0\green0\blue0;\red30\green77\blue120;\red43\green145\blue175;\red111\green0\blue138;\red163\green21\blue21;\red255\green0\blue0;\red0\green0\blue255;}
+{\stylesheet{ Normal;}{\s1 heading 1;}{\s2 heading 2;}{\s3 heading 3;}}
+{\*\generator Riched20 10.0.17763}{\*\mmathPr\mdispDef1\mwrapIndent1440 }\viewkind4\uc1 
+\pard\keep\keepn\nowidctlpar\s1\sb240\sl276\slmult1\cf1\b\f0\fs32 Multimedia API Programmers Guide\par
+
+\pard\widctlpar\sl240\slmult1\cf2\b0\f1\fs22\par
+\f0 This MultiMedia API is a modern approach for combining core hardware acceleration API's from multiple vendors into a single SDK. Transport mechanisms used for the parsing, muxing and network streaming are taken from open source projects including FFMPEG and Live555.\par
+\par
+The interface uses intelligent decisions to utilize appropriate accelerated hardware architecture at runtime from the following vendors: Intel (MFX Interface) AMD (AMF Interface) NVIDIA (NVDEC\\NVENC Interface).\par
+\par
+The API will degrade to a CPU CODECS when acceleration methods are either exhausted or unsupported.\par
+\par
+Using a combination of low level proprietary API's alongside Microsoft DirectX technology, the MultiMedia interface removes initial and ongoing complexities for video encode, decode, transcode and transport.\par
+\par
+Core runtime memory allocations from hardware manufacturers allow high performance gains over traditional methods.\par
+\par
+FFMPEG is used for transport and muxing by default. \par
+\par
+Direct use of the Live555 streaming library can be accessed for RTSP delivery of H264, H265 & MJPEG coded streams by specifying capital \b [RTSP]\b0  in the address url, lower case \b [rtsp] \b0 will invoke FFMPEG RTSP streaming. Using Live555 for RTSP allows users to specify UTC Absolute Play time in accordance with RTSP RFC 2326 section 3.7 and ONVIF Streaming Specification for RTSP Audio and Video Synchronization section 5.2.1.1.2. \par
+\par
+The multimedia interface is written in the C++ language, however, user callbacks are provided with the __stdcall calling convention for compatibility with .NET. The interface is thread safe during simultaneous execution by multiple threads and multiple session access under a single process. API function calls are synchronized and will return the appropriate error. Runtime errors are provided by the status callback function detailed further below.\par
+\par
+For accelerated client decoding and display of video sources, the multimedia interface uses the DirectX9 interface for performance purposes. Both encoding and decoding can alternatively be achieved using software methods (CPU cycles), supporting abstract CODECs and non GPU enabled hardware.\par
+\par
+To allow the flexibility described above, files found alongside the multimedia.dll in the \i bin \i0 directory must be present either on the system PATH or beside the executing binary. All required binaries are provided within the SDK.\par
+\par
+The multimedia interface uses load-time dynamic linking for C++ applications and requires developers to access multimedia.lib at compile time. A .NET wrapper providing a MultiMedia namespace is provided along with a multimedia.net.dll for the .NET framework. Developed applications will load the multimedia.dll during runtime execution. Therefore, multimedia.dll with multimedia.net.dll (if .NET) must be present on the system PATH or beside the executing binary.\par
+\par
+For .NET, see the .NET sample application in the multimedia SDK, the following documentation assumes a C++ interface.\par
+\par
+When developing multimedia applications, use the imported multimedia.lib and the following header files:\par
+\par
+      mmStatus.h  - defines error, warnings and information status codes\par
+      mmAPI.h      - defines and describes the function calls of the API\par
+      mmTypes.h  - defines and describes the data types used by the API\par
+\par
+Functions and data types are documented in these files.\par
+\par
+
+\pard\keep\keepn\nowidctlpar\s2\sb40\sl276\slmult1\cf1\b\fs26 Handle to the interface\par
+
+\pard\widctlpar\sl240\slmult1\cf2\b0\fs22 The multimedia interface must first be loaded using a call to \b mmLoad\b0  and unloaded with a call to \b mmRelease\b0  when the user has finished using the interface. The function caller must provide a pointer to a \b HINTERFACE\b0  for \b mmLoad\b0  and corresponding \b HINTERFACE\b0  in the call to \b mmRelease\b0 .\par
+\f1\par
+
+\pard\keep\keepn\nowidctlpar\s2\sb40\sl276\slmult1\cf1\b\f0\fs26 Handle to a session\par
+
+\pard\widctlpar\sl240\slmult1\cf2\b0\fs22 Upon a successful call to \b mmLoad\b0 , the user can make multiple calls to \b mmClientOpen\b0  and/or \b mmServerOpen\b0  to retrieve a handle to a new session object, represented by the \b HSESSION\b0  type handle. Using a valid \b HSESSION\b0 , all other API calls within the context of the \b mmClientOpen\b0  or \b mmServerOpen\b0  session can be made. Users of the API are expected to call \b mmClose\b0  with a valid \b HSESSION\b0  once the session is no longer required allowing internal resources to be deallocated.\par
+ \par
+\cf1\b\fs26 Handle to a window\cf2\b0\fs22\par
+The multimedia interface when used for video decoding and display is centric to a user provided window handle. The \b mmClientOpen\b0  function allows the user to provide the window handle in addition to a URL and other optional parameters. In the simple use case, the interface will attempt to open the URL endpoint, stream data to the decoder and then display the video content within the supplied user window handle. Using the \b mmServerOpen\b0  function call for video, the window handle parameter can describe the content used for screen scraping and encoding for network delivery, many other parameters exist for encode.\par
+\f1\par
+\cf1\b\f0\fs26 WM_SIZE Reset\cf2\b0\fs22\par
+For reduced memory bandwidth and footprint, the multimedia interface requires the user call an \b mmDictionary \b0 reset command upon any changes detected to the client area. See "cli_reset" below and SDK samples for further details.\f1\par
+\par
+
+\pard\keep\keepn\nowidctlpar\s2\sb40\sl276\slmult1\cf1\b\f0\fs26 Call back routines\par
+
+\pard\widctlpar\sl240\slmult1\cf2\b0\fs22 Calls to \b mmOpenClient\b0  and \b mmOpenServer\b0  provide options for supplying user defined callback function pointers for status and data. See sample applications for further details on how to use callback functionality. Note, for performance and synchronization reasons, no multimedia API call can be made from the callback function thread, doing so will return: \b MM_STS_SRC_ERROR_INVALID_THREAD_CALL\par
+\b0 It is recommended that any code written inside of call backs return as quickly as possible to avoid dropped frames. For best results, copy any data from the callback thread into the user calling thread.\par
+\f1\par
+
+\pard\keep\keepn\nowidctlpar\s3\sb40\sl276\slmult1\cf3\b\f0\fs26 Data call backs\fs24\par
+
+\pard\widctlpar\sl240\slmult1\cf2\b0\fs22 Callbacks for data allow the user access to the underlying data in the pipelines at various stages, encoded or decoded. As an example, when streaming an RTSP source for decode and display into a client provided window, the user has the option of requesting and accessing the encoded and decoded bit stream via the data call back routine. In this example, the following flag combination would be used:\par
+\b MM_CLIENT_REQUEST_VIDEO_SOURCE | MM_CLIENT_REQUEST_VIDEO_DECODED |  MM_CLIENT_REQUEST_VIDEO_TO_DISPLAY\par
+\b0\par
+Note, errors returned from a user defined data callback functions are ignored by the API.\par
+\par
+
+\pard\keep\keepn\nowidctlpar\s3\sb40\sl276\slmult1\cf3\b\fs26 Status callbacks\par
+
+\pard\widctlpar\sl240\slmult1\cf2\b0\fs22 Status information is defined in \i mmStatus.h \i0 and split into logical bitwise categories; errors, warnings and information. Status for call backs is provided using an unsigned code with additional message string. If an error occurs during steady state operation, the user will be notified via a registered status callback function. Status callbacks for errors will arrive on the internal thread before any corresponding user API call invoking an error. For this case, the user's function call will return the same error code. If an error does occur, steady state or otherwise, it is the user responsibility to close the session using \b mmClose\b0 . The status callback may contain further details about the error in the message string. Status codes are backward compatible between subsequent releases of the API, corresponding message strings can change. For best practice, condition only \b mmStatus\b0  #defines, do not condition message strings.\par
+\f1\par
+
+\pard\keep\keepn\nowidctlpar\s2\sb40\sl276\slmult1\cf1\b\f0\fs26 Client open command\par
+
+\pard\widctlpar\sl240\slmult1\cf2\b0\fs22 The \b mmClientOpen \b0 command allows the user to set stream characteristics for the requested URL source. This is done using via the \cf4\f2\fs19 MM_SERVER_OPEN\f3\lang2057  \cf0\f0\fs22 structure used as part of the \b mmOpenClient \b0 command. The \b PURL \b0 parameter identifies the stream source using a prepended context type. Context types currently include:\par
+\par
+
+\pard{\pntext\f5\'B7\tab}{\*\pn\pnlvlblt\pnf5\pnindent0{\pntxtb\'B7}}\fi-360\li720\sl240\slmult1 stream:\par
+
+\pard\sl240\slmult1\par
+
+\pard\widctlpar\sl240\slmult1 Example use cases:\par
+PURL = "stream:rtsp://127.0.0.1/my_resource"\par
+PURL = "stream:http://165.12.12.1/my_resource.mp4"\lang1033\par
+\lang2057 PURL = "stream:c:\\my_resource.mp4"\par
+\par
+\b Authentication of credentials, \b0 use \i rtsp://user@passowrd@<ip_addr>/uri\i0  format to allow digest RFC2069 authentication for username and password on the wire. Ensure any special characters used within the username or password, for example "@?#" are percent-encoded (%40%3f%23) as part of the open call.\cf2\b\f1\lang1033\par
+\b0\par
+
+\pard\keep\keepn\nowidctlpar\s2\sb40\sl276\slmult1\cf1\b\f0\fs26 Client play command\par
+
+\pard\widctlpar\sl240\slmult1\cf2\b0\fs22 The multimedia API optionally accepts Absolute Time parameters as part of the \b mmClientPlay \b0 command. Use of Absolute Time for RTSP requires the use of \b [RTSP] \b0 in capitals for reasons described in this document introduction.\b  \b0 Absolute Time is expressed as ISO 8601 timestamps, using Universal Coordinated Time (UTC) as the reference clock. See RTSP standard RFC 2326 for further details.\par
+\par
+Fractions of a second may also be indicated:\par
+\par
+    utc-range   =   "clock" "=" utc-time "-" [ utc-time ]\par
+    utc-time     =   utc-date "T" utc-time "Z"\par
+    utc-date     =   8DIGIT  ; < YYYYMMDD >\par
+    utc-time     =   6DIGIT [ "." fraction ]   ; < HHMMSS.fraction >\par
+ \par
+As an example, if the user wanted to playback recorded media starting on the 8th of November, 1996 at 14.37 and 20 seconds and a quarter for a duration of 30 seconds, the UTC Absolute Time values would be:\par
+\par
+               PStartTime= "19961108T143720.25Z"\par
+               P\lang2057 End\lang1033 Time= "19961108T143750.25Z"\par
+\par
+This method is favoured by Network Video Recorders (NVRs). The NVR may not return a RTCP "BYE" message after the duration has elapsed. Users of multimedia API may want to SEEK further after this elapsed time, therefore the session remains open with no video or audio updates. It is the responsibility of the user to manage the session when using Absolute Time as part of the \b mmClientPlay\b0  command.\par
+\par
+Alternatively, use the \i PStartTime \i0 and \i P\lang2057 End\lang1033 Time \i0 string pointer parameter to express a Network Time Protocol (NTP), 64-bit timestamp consisting of a 32-bit part for seconds and a 32-bit part for fractional second represented as a double data type. To start a video file at 10 seconds and 33 milliseconds, for a 5 second duration, the NPT time values would be:\par
+\par
+               PStartTime= "10.33"\par
+               P\lang2057 End\lang1033 Time= "15.33"\par
+\par
+Normal Play Time (NPT), not to be confused with (NTP) follows the same notation as the Network Time Protocol. Where the streams absolute position is relative to the beginning of the presentation. The timestamp consists of a decimal fraction. The part left of the decimal is expressed in seconds and right as fractions of a second.\par
+
+\pard\widctlpar\sa160\sl252\slmult1\par
+The multimedia API distinguishes these varying time formats presented by the caller using the 'T' symbol within ISO 8601. Both Start and End time parameters into the multimedia API are represented as character strings.\par
+
+\pard\widctlpar\sl240\slmult1 Upon successfully opening a URL via the \b mmClientOpen \b0 command, the following status call back message will contain the video duration in NPT double format:\par
+\cf5\lang2057\tab\par
+\tab\lang1033 MM_STS_SRC_INFO_SOURCE_URL_VIDEO\cf2\par
+\par
+
+\pard\keep\keepn\nowidctlpar\s2\sb40\sl276\slmult1 Note, for file formats without timing information such as elementry .h264, reported \b [duration]\b0  will equal zero as part of this call back message. File formats with \i duration=0 \i0  result in play start and end times being ignored. This is due to the absence of timing information available in the source container.\par
+
+\pard\widctlpar\sl240\slmult1\i\par
+\i0 Sample applications show how a user can monitor the pipeline using a data call back heartbeat, printing the frame data timestamp for the session when a frame is received. See \cf4 MM_DATA\lang2057 .TimeStamp\cf2\lang1033  for further information.\par
+\par
+
+\pard\keep\keepn\nowidctlpar\s2\sb40\sl276\slmult1\cf1\b\fs26 Client pause command\par
+\cf2\fs22 mmClientPause\b0  pause the current stream position.\par
+For network sources, live or otherwise, rendering is paused whilst stream delivery and decode continues in the background. If Live555 streaming was specified using \b [RTSP] \b0 an attempt will be made to send the PAUSE command to a network endpoint.\par
+\par
+Local file sources will always pause and play as expected.\par
+\par
+\cf1\b\fs26 MultiMedia API\par
+
+\pard\widctlpar\sa160\sl252\slmult1\cf2\b0\fs22 Function calls are defined and described in file mmAPI.h\par
+
+\pard\widctlpar\sl252\slmult1\cf1\b\fs26 MultiMedia Dictionary\cf2\b0\fs22\par
+The API provides \b mmDictionarySet()\b0  and \b mmDictionaryGet() \b0 to act as runtime parameter access to the multimedia session. The following key value pairs are available:\par
+\par
+
+\pard\widctlpar\sa160\sl252\slmult1\b\f3\fs19\lang2057 key \cf6\b0 cli_reset \cf2\f0\fs22\lang1033  \b value \cf6\b0\f3\fs19\lang2057 0 or null\cf7\f0\fs22\lang1033\par
+\cf0 Reset the DX object backbuffer to reflect the necessary amount of memory used by the existing window client area. This is an optimization for graphics subsystems with limited available memory. Call this command on receipt of a WM_SIZE message.\par
+\cf2\b\f3\fs19\lang2057 key \cf6\b0 svr\f2\lang1033 _force_idr_frame\f3\lang2057  \cf2\f0\fs22\lang1033  \b value \cf6\b0\f3\fs19\lang2057 on\cf7\f0\fs22\lang1033  | \cf6\f3\fs19\lang2057 off\cf7\f0\fs22\lang1033\par
+\cf0 Sessions opened with \b mmServerOpen() \b0 can override the original requested KeyFrameInterval (GOP) value by forcing all encoded frames to be of IDR type. When this feature is turned off, the originally specified KeyFrameInterval is again used.\par
+\cf2\b\f3\fs19\lang2057 key \cf6\b0 svr\f2\lang1033 _\f3\lang2057 repeat_vca\f2\lang1033 _frame\f3\lang2057  \cf2\f0\fs22\lang1033  \b value \cf6\b0\f3\fs19\lang2057 frameCount\cf7\f0\fs22\lang1033\par
+
+\pard\sl252\slmult1\cf0 Repeat the current (VCA) frame and any associated non-VCA NALs on the encoders output stream. Do not encode any new frames. When used, the VCA frame will be delivered as fast as possible by the system and not at the user defined frame rate.\par
+\par
+
+\pard\widctlpar\sa160\sl252\slmult1\cf2\b\f3\fs19\lang2057 key \cf6\b0 cli_dewarp \cf2\b\f0\fs22\lang1033 value \cf6\b0\f3\fs19\lang2057 MM_CLIENT_DEWARP*\cf7\f0\fs22\lang1033\par
+\cf0 Set decode session fisheye dewarping paramers\lang2057 . \lang1033 Use pointer to a MM_CLIENT_DEWARP structure\lang2057  as described in mmtypes.h. Client and display use case only.\par
+\cf2\b\f3\fs19 key \cf6\b0 overlay \cf2\b\f0\fs22\lang1033 value \cf6\b0\f3\fs19\lang2057 MM_OVERLAY*\cf7\f0\fs22\lang1033\par
+\cf0 Set \lang2057 the \lang1033 encode or decode session overlay parameters. Use pointer to a MM_OVERLAY structure\lang2057  as described in mmtypes.h\par
+\cf2\b\f3\fs19 key \cf6\b0 svr_update_hwnd \cf2\b\f0\fs22\lang1033 value \cf6\b0\f3\fs19\lang2057 HWND*\cf7\f0\fs22\lang1033\par
+
+\pard\sl252\slmult1\cf0 Update the currently encoded window handle\lang2057 . \lang1033 Valid only when MM_SERVER_REQUEST_VIDEO_OF_HWND is used\lang2057 .\par
+\cf2\f2\fs19\lang1033\par
+
+\pard\widctlpar\sa160\sl252\slmult1\b\f3\lang2057 key \cf6\b0 cli_zoom \cf2\b\f0\fs22\lang1033 value \cf6\b0\f3\fs19\lang2057 MM_RECT*\cf7\f0\fs22\lang1033\par
+\cf0 Set a decode session zoom rectangle in percentage values. The rectangle will render and scale only the valid portion of the source video dimensions into the client window\lang2057 . \lang1033 Use a pointer to a MM_RECT structure\lang2057  as described in mmtypes.h. Client and display use case only.\par
+\cf2\b\f3\fs19 key \cf6\b0 cli_source \cf2\b\f0\fs22\lang1033 value \cf6\b0\f3\fs19\lang2057 MM_CLIENT_SOURCE*\cf7\f0\fs22\lang1033\par
+\cf0 Set source attributes such as maintaining the aspect ration of source through the use of MM_CLIENT_SOURCE. Use a pointer to a MM_CLIENT_SOURCE structure\lang2057  as described in mmtypes.h. Client and display use case only.\par
+\cf2\b\f3\fs19 key \cf6\b0 cli_child \cf2\b\f0\fs22\lang1033 value \cf6\b0\f3\fs19\lang2057 MM_CLIENT_CHILD*\cf7\f0\fs22\lang1033\par
+\cf0 To allow for a session to share decoding network and decoding resources, the MM_CLIENT_CHILD concept allows the current session to me cloned and \kerning1\f4 independent \kerning0\f0 PAUSE, PLAY, DEWARP and ZOOM parameters to be set for a new user defined window handle. Use a pointer to a MM_CLIENT_CHILD structure\lang2057  as described in mmtypes.h. Client and display use case only.\par
+
+\pard\sl252\slmult1\cf2\f2\fs19\lang1033\par
+
+\pard\keep\keepn\nowidctlpar\s2\sb40\sl276\slmult1\cf1\b\f0\fs26 Sample Programs\par
+\cf0\b0\fs22 Sample applications are built using Visual Studio 2015 (v140). Change accordingly for you version of Visual studio and associated libraries in 'Configuration Properties->General->Platform Toolset'. All sample applications upon successful build copy to the relevant 'bin\\Win32|x64\\Release|Debug' folder. When executing sample projects, ensure the 'Working Directory' within the project (.vcxproj.user) points to the correct directory:\par
+\par
+C++ Samples:\par
+
+\pard{\pntext\f5\'B7\tab}{\*\pn\pnlvlblt\pnf5\pnindent0{\pntxtb\'B7}}\keep\keepn\nowidctlpar\s2\fi-360\li720\sb40\sl276\slmult1 $(ProjectDir)..\\bin\\$(Platform)\\$(Configuration)\\$(ProjectName).exe\par
+
+\pard\keep\keepn\nowidctlpar\s2\sb40\sl276\slmult1 C# Samples:\par
+
+\pard{\pntext\f5\'B7\tab}{\*\pn\pnlvlblt\pnf5\pnindent0{\pntxtb\'B7}}\keep\keepn\nowidctlpar\s2\fi-360\li720\sb40\sl276\slmult1 ..\\..\\..\\..\\\par
+
+\pard\keep\keepn\nowidctlpar\s2\sb40\sl276\slmult1\cf1\b\fs26\par
+
+\pard\widctlpar\sa160\sl252\slmult1\cf2\fs22 app_decode_client_sample_1\par
+\b0 Takes a url and xy coordinates provided by the user on the command line. \par
+The sample listens to user keyboard events of the ARROW keys to provide display; \kerning1\f4 independent \cf0\kerning0\f0 PAUSE, PLAY, DEWARP and ZOOM parameter\cf2  functionality. \par
+See sample application code virtual key press events for further details.\par
+\b app_decode_client_sample_1a\par
+\b0 The sample takes a single url= followed by x=, y=, w=, h= coordinates for positioning the newly created window. The sample application allows multiple instances to be called from a batch file using the following syntax as an example:\par
+\par
+\fs16 START app_decode_client_sample_1a.exe url=stream:rtsp://some_url_1 x=0 y=0 w=1920 h=1080\par
+START app_decode_client_sample_1a.exe url=stream:rtsp://some_url_2 x=1920 y=0 w=1920 h=1080\par
+START app_decode_client_sample_1a.exe url=rstream:tsp://some_url_3 x=3840 y=0 w=1920 h=1080\par
+START app_decode_client_sample_1a.exe url=stream:rtsp://some_url_4 x=5760 y=0 w=1920 h=1080\par
+START app_decode_client_sample_1a.exe url=stream:rtsp://some_url_5 x=0 y=1080 w=1920 h=1080\par
+START app_decode_client_sample_1a.exe url=stream:rtsp://some_url_6 x=1920 y=1080 w=1920 h=1080\par
+START app_decode_client_sample_1a.exe url=stream:rtsp://some_url_7 x=3840 y=1080 w=1920 h=1080\par
+START app_decode_client_sample_1a.exe url=stream:rtsp://some_url_8 x=5760 y=1080 w=1920 h=1080\par
+\par
+\fs22 This sample does not register for data callbacks. For a full list of supported arguments, call app_decode_client_sample_1a.exe with no arguments.\par
+\b app_decode_client_sample_1d\par
+\b0 Takes a url provided by the user on the command line. The sample registers a request to access the video encoded source frames and decoded source frames. The sample  callback is used to print out the timestamp for the buffer.\par
+\b app_decode_client_sample_2\par
+\b0 C# application for video decode and display. Contains extensive command line interface. This sample is used as the primary application for BBTCPServer window creation.\par
+\b app_decode_client_sample_2d\par
+\b0 C# application for video compressed and uncomprerssed video frame callbacks without displaying decoded frames. Contains simple command line interface.\par
+\b app_encode_rtsp_server\par
+\b0 Optionally takes a user provided HWND (window handle) on the command line for screen scraping, encoding and rtsp server delivery. If no handle is provided, the console window, 960x480 is used as a substitute. In this simple example, a successful call to encode and setup the RTSP server will return a newly created url in the status callback information block. Search for gURL in the sample for further details. Additional encode input parameters include Monitor and Desktop Coordinates.\par
+\b app_file_rtsp_server\par
+\b0 This application is a compiled version of the Live555 (LiveMedia) mediaServer application. Use this to connect to stream RTSP sources to your client applications for evaluation and testing. This is a compiled binary found in the 'bin' folder. For source code, visit the Live555 website.\par
+
+\pard\keep\keepn\nowidctlpar\s2\sb40\sl276\slmult1\cf1\b\fs26 Logging\par
+
+\pard\widctlpar\sa160\sl252\slmult1\cf2\b0\fs22 Use the registry file \i mmlogging.reg \i0 to enable logging to a file named "\cf6 mmlog_\lang2057 day\lang1033 -\lang2057 month\lang1033 -\lang2057 year\lang1033 _timed_\lang2057 hour\lang1033 -\lang2057 minute\lang1033 -\lang2057 second\lang1033 -\lang2057 millisecond\lang1033 .txt\lang2057 "\cf2\lang1033 . The log file will be created in the always accessible directory: '\b c:\\multimedia\b0 ' you may need to create this folder. Verbose logging  can help identify issues including trace statements.  Editing \i mmlogging.reg \i0 in a text editor allows the user to update the mmlog value to either 0 or 1. With logging enabled performance is compromised.\par
+
+\pard\widctlpar\sl252\slmult1\cf1\b\fs26 Address Space\par
+\cf2\b0\fs22 The mmAPI uses DirectX surfaces for the mapping of video, ensure that you have enough system memory, at least 8GB of memory and for 32bit applications. You will also need enough address space available to map physical address memory when accelerated.  See the link below when executing the mmAPI under a single 32bit application process, for this reason 64 bit development is recommended: \cf1\b\par
+
+\pard\widctlpar\sa160\sl252\slmult1 {\cf0\b0{\field{\*\fldinst{HYPERLINK https://msdn.microsoft.com/en-us/library/aa366778.aspx }}{\fldrslt{https://msdn.microsoft.com/en-us/library/aa366778.aspx\ul0\cf0}}}}\cf2\b0\f0\fs22\par
+}
+ 

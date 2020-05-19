@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <LocalDebuggerCommand>$(ProjectDir)..\bin\$(Platform)\$(Configuration)\$(ProjectName).exe</LocalDebuggerCommand>
+    <DebuggerFlavor>WindowsRemoteDebugger</DebuggerFlavor>
+    <RemoteDebuggerCommand>C:\multimedia\debug\$(ProjectName).exe</RemoteDebuggerCommand>
+    <RemoteDebuggerCommandArguments>-url=c:\\multimedia\\video\\1.h264 -x=1920 -y=1080 -w=960 -h=540 -start_time=0 -end_time=0 -cache_video=1000 -speed=3 -repeat=1 -net_tcp=0 -reverse=0 -borders=1 -seperateprocess=1</RemoteDebuggerCommandArguments>
+    <RemoteDebuggerWorkingDirectory>C:\multimedia\debug</RemoteDebuggerWorkingDirectory>
+    <RemoteDebuggerServerName>DEMO-BLUEBOX001:4020</RemoteDebuggerServerName>
+    <RemoteDebuggerDebuggerType>NativeOnly</RemoteDebuggerDebuggerType>
+    <DeploymentDirectory>C:\multimedia\debug</DeploymentDirectory>
+    <AdditionalFiles>C:\Code\bluebox\SOURCE\multimedia-source\sdk\bin\$(Platform)\$(Configuration)\multimedia.dll</AdditionalFiles>
+    <RemoteDebuggerDeployDebugCppRuntime>false</RemoteDebuggerDeployDebugCppRuntime>
+    <LocalDebuggerCommandArguments>-url=c:\multimedia\video\1.h264 -borders=1 -cache_video=500</LocalDebuggerCommandArguments>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <LocalDebuggerCommandArguments>-url=RTSP://192.168.0.102:7001/b20ce8b2-abe6-2a04-c673-eba194f21fbe</LocalDebuggerCommandArguments>
+    <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
+    <LocalDebuggerCommand>$(ProjectDir)..\bin\$(Platform)\$(Configuration)\$(ProjectName).exe</LocalDebuggerCommand>
+  </PropertyGroup>
+</Project>

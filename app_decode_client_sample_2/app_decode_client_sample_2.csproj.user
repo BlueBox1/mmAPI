@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <StartWorkingDirectory>..\..\..\..\</StartWorkingDirectory>
+    <StartArguments>-url=rtsp://admin:1982#%40%3f/\%3f%40\" %40192.168.0.102:7001/3482679b-71a9-bfc6-1714-1d4693289802 -x=1920 -y=0 -w=1920 -h=1080 -start_time=now -end_time= -cache_video=500 -speed=3 -repeat=1 -net_tcp=1 -reverse=0 -borders=0 -window=3 -aspect_ratio=1 -argb=65535 -reserved=0</StartArguments>
+    <EnableUnmanagedDebugging>true</EnableUnmanagedDebugging>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <StartArguments>-url=c:\multimedia\video\bob.bob x=0 -y=0 -w=640 -h=480</StartArguments>
+    <StartWorkingDirectory>..\..\..\..\</StartWorkingDirectory>
+    <EnableUnmanagedDebugging>true</EnableUnmanagedDebugging>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <StartWorkingDirectory>..\..\..\..\</StartWorkingDirectory>
+    <StartArguments>-url=c:\multimedia\test\a.mp4</StartArguments>
+    <EnableUnmanagedDebugging>true</EnableUnmanagedDebugging>
+  </PropertyGroup>
+  <PropertyGroup>
+    <PublishUrlHistory>http://localhost/Sample1.Net/</PublishUrlHistory>
+    <InstallUrlHistory />
+    <SupportUrlHistory />
+    <UpdateUrlHistory />
+    <BootstrapperUrlHistory />
+    <ErrorReportUrlHistory />
+    <FallbackCulture>en-US</FallbackCulture>
+    <VerifyUploadedFiles>false</VerifyUploadedFiles>
+  </PropertyGroup>
+</Project>
