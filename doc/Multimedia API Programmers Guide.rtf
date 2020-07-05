@@ -5,15 +5,15 @@
 \pard\keep\keepn\nowidctlpar\s1\sb240\sl276\slmult1\cf1\b\f0\fs32 Multimedia API Programmers Guide\par
 
 \pard\widctlpar\sl240\slmult1\cf2\b0\f1\fs22\par
-\f0 This MultiMedia API is a modern approach for combining core hardware acceleration API's from multiple vendors into a single SDK. Transport mechanisms used for the parsing, muxing and network streaming are taken from open source projects including FFMPEG and Live555.\par
+\f0 This MultiMedia API is a video surviellance approach for combining core video hardware acceleration API's from multiple vendors into a single SDK. Transport mechanisms used for the parsing, muxing and network streaming are taken from open source projects including FFMPEG and Live555.\par
 \par
-The interface uses intelligent decisions to utilize appropriate accelerated hardware architecture at runtime from the following vendors: Intel (MFX Interface) AMD (AMF Interface) NVIDIA (NVDEC\\NVENC Interface).\par
+The interface utilizes all available system accelerated hardware architectures at runtime from the following vendors: Intel (MFX Interface) AMD (AMF Interface) NVIDIA (NVDEC\\NVENC Interface).\par
 \par
 The API will degrade to a CPU CODECS when acceleration methods are either exhausted or unsupported.\par
 \par
 Using a combination of low level proprietary API's alongside Microsoft DirectX technology, the MultiMedia interface removes initial and ongoing complexities for video encode, decode, transcode and transport.\par
 \par
-Core runtime memory allocations from hardware manufacturers allow high performance gains over traditional methods.\par
+Hardware memory allocation and bandwidth negotiation provide high performance gains over traditional methods.\par
 \par
 FFMPEG is used for transport and muxing by default. \par
 \par
@@ -40,7 +40,7 @@ Functions and data types are documented in these files.\par
 
 \pard\keep\keepn\nowidctlpar\s2\sb40\sl276\slmult1\cf1\b\fs26 Handle to the interface\par
 
-\pard\widctlpar\sl240\slmult1\cf2\b0\fs22 The multimedia interface must first be loaded using a call to \b mmLoad\b0  and unloaded with a call to \b mmRelease\b0  when the user has finished using the interface. The function caller must provide a pointer to a \b HINTERFACE\b0  for \b mmLoad\b0  and corresponding \b HINTERFACE\b0  in the call to \b mmRelease\b0 .\par
+\pard\widctlpar\sl240\slmult1\cf2\b0\fs22 The multimedia interface must first be loaded using a call to \b mmLoad\b0  and unloaded with a call to \b mmRelease\b0  when the user has finished using the interface. The function caller must provide a pointer to an initialized  \b MM_LOAD\b0  structure for the \b mmLoad\b0  call which will then contain a valid \b HINTERFACE\b0  handle upon successful return. The handle can then be used in the call to \b mmRelease\b0  when the the interface is no longer required.\par
 \f1\par
 
 \pard\keep\keepn\nowidctlpar\s2\sb40\sl276\slmult1\cf1\b\f0\fs26 Handle to a session\par
@@ -51,7 +51,7 @@ Functions and data types are documented in these files.\par
 The multimedia interface when used for video decoding and display is centric to a user provided window handle. The \b mmClientOpen\b0  function allows the user to provide the window handle in addition to a URL and other optional parameters. In the simple use case, the interface will attempt to open the URL endpoint, stream data to the decoder and then display the video content within the supplied user window handle. Using the \b mmServerOpen\b0  function call for video, the window handle parameter can describe the content used for screen scraping and encoding for network delivery, many other parameters exist for encode.\par
 \f1\par
 \cf1\b\f0\fs26 WM_SIZE Reset\cf2\b0\fs22\par
-For reduced memory bandwidth and footprint, the multimedia interface requires the user call an \b mmDictionary \b0 reset command upon any changes detected to the client area. See "cli_reset" below and SDK samples for further details.\f1\par
+For reduced memory bandwidth and footprint, the multimedia interface requires the user call an \b mmDictionary \b0 reset command upon any changes detected to the client area. See "cli_reset" below and SDK samples for further details. The interface no longer 'hooks' the windows message loop to determine this information due to new Windows 10 windowing techniques.\f1\par
 \par
 
 \pard\keep\keepn\nowidctlpar\s2\sb40\sl276\slmult1\cf1\b\f0\fs26 Call back routines\par

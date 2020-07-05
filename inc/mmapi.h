@@ -12,12 +12,10 @@
 #endif  
 
 MM_API mmStatus mmLoad(                // load the multimedia interface
-   HINTERFACE*          pModule,       // pointer to a HMODULE
-   MM_VERSION*          pVersion,      // version control parameter
-   MM_LOAD_CONTEXT*     pFlags);       // load context flags
+   MM_LOAD*             pLoad);        // load settings
 
 MM_API mmStatus mmRelease(             // release the multimedia interface
-   HINTERFACE           pModule);      // HMODULE
+   HINTERFACE           hInterface);   // handle to the loaded interface
 
 MM_API mmStatus mmClientOpen(          // open a multimedia client
    HSESSION*            pSession,      // returned pointer to the new session instance handle

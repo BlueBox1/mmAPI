@@ -44,7 +44,12 @@ namespace MM.SDK
 
       public void SetOSDText(string txt, int wWidth, int wHeight)
       {
-         if (!this.InvokeRequired)
+         if (this.InvokeRequired)
+         {
+            this.Invoke(new Action<string, int, int>(SetOSDText), txt, wWidth, wHeight);
+            return;
+         }
+         else
          {
             if (_osd == null)
             {
@@ -72,16 +77,16 @@ namespace MM.SDK
       {
          if (this.InvokeRequired)
          {
-            Debug.Assert(false);
+            this.Invoke(new Action<string>(SetWindowText), txt);
             return;
-            // we could do this but its asking for trouble, let the messaging thread do all form tasks
-            // consider _listChildLock for example, Invoke below will wait for the form thread and we could be in this lock already..
-            //this.Invoke(new Action<string>(SetWindowText), txt); 
          }
          this.Text = txt;
       }
       public bool updateWindowMethod(MM_WINDOW window)
       {
+         if (this.InvokeRequired) // TODO:
+            return false;
+
          bool bRedraw = false;
          _updatingWindow = true;
 
@@ -134,14 +139,15 @@ namespace MM.SDK
             this.Show();
 
          _updatingWindow = false;
-         //this.Activate();
-         //this.Refresh();
-         //this.Activate();
-         //this.Invalidate();
          return bRedraw;
       }
       protected void PaintStatus(string status)
       {
+         if (this.InvokeRequired)
+         {
+            this.Invoke(new Action<string>(PaintStatus), status);
+            return;
+         }
          _statusMessage = status;
          if (status.Length > 0 || _osd != null)
          {

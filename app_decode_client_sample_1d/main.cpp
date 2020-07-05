@@ -280,10 +280,6 @@ mmStatus startSesssion(HWND hWnd, char* pURL, char* pStartTime, char* pEndTime, 
 
 int main(int argc, char** argv)
 {
-   HINTERFACE hInterface;
-   MM_VERSION version;
-   MM_LOAD_CONTEXT flags;
-
    if (argc < 5) { 
       printf("Usage: %s <url> <saveCount> <saveInterval> <saveName>", argv[0]);
       printf("\nPress ENTER key to Continue\n");
@@ -297,7 +293,10 @@ int main(int argc, char** argv)
    gUserCount = atoi(argv[2]);
    gUserInterval = atoi(argv[3]);
 
-   gError = mmLoad(&hInterface, &version, &flags);
+   mmStatus sts;
+   MM_LOAD load = { 0, };
+   load.Size = sizeof(MM_LOAD);
+   sts = mmLoad(&load);
    if (gError == MM_STS_NONE)
    {
       HSESSION hSession;
@@ -311,7 +310,7 @@ int main(int argc, char** argv)
          }
          mmClose(hSession);
       }
-      mmRelease(hInterface);
+      mmRelease(load.HInterface);
    }
 
    printf("%s exiting with code 0x%x\n", argv[0], gError);

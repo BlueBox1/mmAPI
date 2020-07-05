@@ -469,12 +469,6 @@ mmStatus startSesssion(HWND hWnd, char* pURL, char* pStartTime, char* pEndTime, 
 
 int main(int argc, char** argv)
 {
-   mmStatus sts;
-   HINTERFACE hInterface;
-   MM_VERSION version;
-   MM_LOAD_CONTEXT flags;
-   HWND hWnd; 
-
    if (argc < 6) { 
       printf("Usage: %s <url> <x> <y> <w> <h>\n", argv[0]);
       printf("\nPress ENTER key to Continue\n");
@@ -487,13 +481,16 @@ int main(int argc, char** argv)
    gW = std::stoi(argv[4], NULL, 10);
    gH = std::stoi(argv[5], NULL, 10);
 
-   hWnd = CreateDisplayWindow("SampleClassName", gX, gY, gW, gH);
+   HWND hWnd = CreateDisplayWindow("SampleClassName", gX, gY, gW, gH);
    ShowWindow(hWnd, SW_SHOWNORMAL);
 #if !_DEBUG
    ShowWindow(GetConsoleWindow(), SW_MINIMIZE);
 #endif
 
-   sts = mmLoad(&hInterface, &version, &flags);
+   mmStatus sts;
+   MM_LOAD load = { 0, };
+   load.Size = sizeof(MM_LOAD);
+   sts = mmLoad(&load);
    if (sts == MM_STS_NONE)
    {
       sts = startSesssion(hWnd, argv[1], 0, 0, 1000, &gHSession);
@@ -553,7 +550,7 @@ int main(int argc, char** argv)
          }
          sts = mmClose(gHSession);
       }
-      mmRelease(hInterface);
+      mmRelease(load.HInterface);
    }
    printf("%s exiting with code 0x%x\n", argv[0], sts);
    

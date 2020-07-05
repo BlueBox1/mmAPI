@@ -182,6 +182,19 @@ typedef struct _MM_VERSION                      // version control structure
 
 //------------------------------------------------------------------------------
 
+typedef struct _MM_LOAD                         // load settings structure
+{
+   unsigned             Size;                   // initialised to size of this structure
+   unsigned             TimeoutMS;              // in - timout in MS before returning any network or command error
+   char*                PLogPath;               // in - verbose log file creation directory if non-null
+
+   MM_VERSION           Version;                // out - version of the interface
+   MM_LOAD_CONTEXT      OutFlags;               // out - load context flags
+   HINTERFACE           HInterface;             // out - handle to the loaded interface
+}  MM_LOAD, *PMM_LOAD;
+
+//------------------------------------------------------------------------------
+
 typedef struct _MM_CLIENT_PLAY                  // additional play parameters
 {
    unsigned             Size;                   // initialised to size of this structure

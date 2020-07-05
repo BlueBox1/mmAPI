@@ -44,6 +44,7 @@ namespace MM.SDK
    {
       public IntPtr _hSession = IntPtr.Zero;
       public MMParameters _parms = null;
+      public MM_TASK_ITEM _state = MM_TASK_ITEM.MM_NONE;
       private WindowParent _windowParent = null;
       private List<MM_TASK> _taskList;
       private readonly object _taskLock = new object();
@@ -151,15 +152,19 @@ namespace MM.SDK
                goto case MM_TASK_ITEM.MM_CLOSE;
             case MM_TASK_ITEM.MM_CLOSE:
                sts = closeSession(task._dictKey, task._lpData);
+               _state = MM_TASK_ITEM.MM_CLOSE;
                break;
             case MM_TASK_ITEM.MM_OPEN:
                sts = openSesssion(task._dictKey, task._lpData);
+               _state = MM_TASK_ITEM.MM_OPEN;
                break;
             case MM_TASK_ITEM.MM_PLAY:
                sts = playSesssion(task._dictKey, task._lpData);
+               _state = MM_TASK_ITEM.MM_PLAY;
                break;
             case MM_TASK_ITEM.MM_PAUSE:
                sts = pauseSesssion(task._dictKey, task._lpData);
+               _state = MM_TASK_ITEM.MM_PAUSE;
                break;
             case MM_TASK_ITEM.MM_DICT:
                sts = dictSession(task._dictKey, task._lpData);
@@ -168,18 +173,6 @@ namespace MM.SDK
                Debug.Assert(false);
                break;
          }
-#if DEBUG
-         
-         if (mmSessionDictionaryKeys.CLI_CHILD == task._dictKey)
-         {
-            Child child = new Child();
-            child.Parms = (MM_CLIENT_CHILD)Marshal.PtrToStructure(task._lpData, typeof(MM_CLIENT_CHILD));
-            Debug.WriteLine($"invoke task {task._item} {child.Parms.Flags} {task._lpData} sts {sts}");
-            child = null;
-         }
-         else
-            Debug.WriteLine($"invoke task {task._item} {task._dictKey} {task._lpData} sts {sts}");
-#endif
       }
       private void threadLoop()
       {
@@ -280,10 +273,13 @@ namespace MM.SDK
                return mmStatus.MM_STS_SRC_ERROR_INCOMPATIBLE_API;
          }
 
+         _windowParent.PaintSessionStatus("Opening URL: " + _parms.Open.URL);
+
          string basicAuth = _parms.Open.URL;
-         if( (uint)flags != 0x80000000) // (think carousel)
-            MMSendMessage.SendWindowText(_windowParent.GetHWND(), "Opening URL: " + _parms.Open.URL, MMSendMessage.MM_WIN_TXT_FLAG.MM_STATUS);
-         MMSendMessage.SendWindowText(_windowParent.GetHWND(), _parms.Open.URL, MMSendMessage.MM_WIN_TXT_FLAG.MM_TITLE);
+         if( (uint)flags != 0x80000000) // playlist case
+            _windowParent.PaintSessionStatus("Opening URL: " + _parms.Open.URL);
+
+         _windowParent.SetSessionWindowText(_parms.Open.URL);
 
          if (!string.IsNullOrEmpty(_parms.Open.UserName) && !string.IsNullOrEmpty(_parms.Open.PassWord))
          {
@@ -312,13 +308,14 @@ namespace MM.SDK
          mmStatus sts = mmMethods.mmClientOpen(out _hSession, ref _parms.Open.OpenParms);
          if (sts != mmStatus.MM_STS_NONE)
          {
-            MMSendMessage.SendWindowText(_windowParent.GetHWND(), $"STATUS 0x{sts:X} Opening URL: " + _parms.Open.URL, MMSendMessage.MM_WIN_TXT_FLAG.MM_STATUS | MMSendMessage.MM_WIN_TXT_FLAG.MM_WDOG);
+            _windowParent.PaintSessionStatus($"STATUS 0x{sts:X} Opening URL: " + _parms.Open.URL);
+            _windowParent._watchDog.Enabled = true;
             // start a fresh
             _parms.Play.StartTime = null;
             _parms.Play.EndTime = null;
          }
          else
-            MMSendMessage.SendWindowText(_windowParent.GetHWND(), "", MMSendMessage.MM_WIN_TXT_FLAG.MM_STATUS);
+            _windowParent.PaintSessionStatus("");
 
          if (_parms.Open.OpenParms.PReserved != IntPtr.Zero)
             Marshal.FreeHGlobal(_parms.Open.OpenParms.PReserved);
@@ -387,7 +384,7 @@ namespace MM.SDK
          {
             // stop the task thread
             InvokeMMTask(new MM_TASK(MM_TASK_ITEM.MM_STOP, 0, IntPtr.Zero, 0));
-            //staying in sync with the calling thread
+            // stay in sync with the calling thread
             _thread.Join();
          }
 
@@ -401,7 +398,7 @@ namespace MM.SDK
          }
          while (true);
 
-         // staying in sync with the calling thread
+         // stay in sync with the calling thread
          _ewh.Close();
       }
       private void FreeTask(MM_TASK task)

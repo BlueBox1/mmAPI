@@ -103,17 +103,15 @@ void setupSession(HWND hWnd, MM_SERVER_OPEN* pOpenParms)
 //------------------------------------------------------------------------------
 
 int main(int argc, char** argv)
-{
-   mmStatus sts;
-   HINTERFACE hInterface;
-   MM_VERSION version;
-   MM_LOAD_CONTEXT flags;
-
+{ 
    // Add a CTRL-C handler routine.
    SetConsoleCtrlHandler(HandlerRoutine, TRUE);
    gHEvent = CreateEvent(NULL, FALSE, FALSE, NULL);
 
-   sts = mmLoad(&hInterface, &version, &flags);
+   mmStatus sts;
+   MM_LOAD load = { 0, };
+   load.Size = sizeof(MM_LOAD);
+   sts = mmLoad(&load);
    if (sts == MM_STS_NONE)
    {
       HSESSION hSession;
@@ -132,7 +130,7 @@ int main(int argc, char** argv)
          WaitForSingleObject(gHEvent, INFINITE);
          sts = mmClose(hSession);
       }
-      mmRelease(hInterface);
+      mmRelease(load.HInterface);
    }
    CloseHandle(gHEvent);
    printf("%s exiting with code 0x%x\n", argv[0], sts);

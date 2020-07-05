@@ -23,12 +23,11 @@
 <body>
 <h3>Accelerated MultiMedia SDK</h3>
 <p></p>
-This MultiMedia API is a modern approach for combining core hardware acceleration API's from multiple vendors into a single SDK. <p></p>
-Transport mechanisms used for the parsing, muxing and network streaming are taken from open source projects including FFMPEG and Live555. <p></p>
-The interface uses intelligent decisions to utilize appropriate accelerated hardware architecture at runtime from the following vendors: Intel (MFX Interface) AMD (AMF Interface) NVIDIA (NVDEC\NVENC Interface).<p></p>
+This MultiMedia API is a video surviellance approach for combining core video hardware acceleration API's from multiple vendors into a single SDK. Transport mechanisms used for the parsing, muxing and network streaming are taken from open source projects including FFMPEG and Live555.<p></p>
+The interface utilizes all available system accelerated hardware architectures at runtime from the following vendors: Intel (MFX Interface) AMD (AMF Interface) NVIDIA (NVDEC\NVENC Interface).<p></p>
 The API will degrade to a CPU CODECS when acceleration methods are either exhausted or unsupported.<p></p>
 Using a combination of low level proprietary API's alongside Microsoft DirectX technology, the MultiMedia interface removes initial and ongoing complexities for video encode, decode, transcode and transport.<p></p>
-Core runtime memory allocations from hardware manufacturers allow high performance gains over traditional methods. <p></p>
+Hardware memory allocation and bandwidth negotiation provide high performance gains over traditional methods.<p></p>
 RTSP streaming via Live555 can be accessed in favour of FFMPEG, see programmers guide for full details. Using Live555 for RTSP allows users to specify UTC Absolute Play time in accordance with RTSP RFC 2326 section 3.7 and ONVIF Streaming Specification for RTSP Audio and Video Synchronization section 5.2.1.1.2.<p></p>
 FFMPEG is used for transport and muxing by default.
 <p></p>
@@ -36,6 +35,9 @@ FFMPEG is used for transport and muxing by default.
 <hr />
 
 <h3>Version</h3>
+<h3>v 4.3.0 - 02/07/2020</h3>
+Added support for web API
+mmAPI-mmLoad now accepts MM_LOAD structure for global interface IO settings
 <h3>v 4.2.1 - 19/05/2020</h3>
 Added support for a remote server licencing system for product activation
 <h3>v 4.2.0 - 01/05/2020</h3>

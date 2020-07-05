@@ -42,14 +42,9 @@ namespace app_decode_encode_sample_2a
          if (GetCommandLine())
          {
             // load the multimedia API
-            MM_VERSION version;
-            MM_LOAD_CONTEXT flags;
-            IntPtr hModule = IntPtr.Zero;
-            var currentDirectory = System.Environment.CurrentDirectory;
-            hModule = MMHelper.MMLoad(currentDirectory, out version, out flags);
-            if (hModule != IntPtr.Zero)
+            MM_LOAD load = new MM_LOAD();
+            if (MMHelper.MMLoad(ref load, Environment.CurrentDirectory))
             {
-               
                MMHelper.InitClientParms(1, _parmsDecode);
                _parmsDecode.Open.UserName = "";
                _parmsDecode.Open.PassWord = "";
@@ -91,6 +86,7 @@ namespace app_decode_encode_sample_2a
                   mmMethods.mmClose(_hSession);
                }
                Marshal.FreeHGlobal(_parmsDecode.Open.OpenParms.PURL);
+               mmMethods.mmRelease(load.HInterface);
             }
             if (_sts != mmStatus.MM_STS_NONE)
                Console.WriteLine($"ERROR - Status 0x{_sts:X}");

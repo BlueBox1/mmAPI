@@ -120,14 +120,12 @@
     <Compile Include="MMInterface.cs" />
     <Compile Include="MMInterop.cs" />
     <Compile Include="MMParameters.cs" />
-    <Compile Include="MMSendMessage.cs" />
     <Compile Include="MMWindow.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="MMWindow.designer.cs">
       <DependentUpon>MMWindow.cs</DependentUpon>
     </Compile>
-    <Compile Include="MMWindowChild.cs" />
     <Compile Include="MMWindowParent.cs">
       <SubType>Form</SubType>
     </Compile>

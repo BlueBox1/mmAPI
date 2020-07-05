@@ -147,7 +147,7 @@ namespace MM.SDK
          return baseDirectory;
       }
 
-      public static IntPtr MMLoad(string baseDirectory, out MM_VERSION version, out MM_LOAD_CONTEXT flags)
+      public static bool MMLoad(ref MM_LOAD load, string baseDirectory)
       {
          string mmLibPath = GetMultiMediaPath(baseDirectory);
 
@@ -158,48 +158,41 @@ namespace MM.SDK
                if (!MMInterop.SetDllDirectory(mmLibPath))
                {
                   Exception e = new System.ComponentModel.Win32Exception();
-                  throw new DllNotFoundException("Unable to load library: " + mmLibPath, e);
+                  throw new DllNotFoundException("Error, Unable to load library: " + mmLibPath, e);
                }
                else
                {
-                  IntPtr hModule = IntPtr.Zero;
-                  mmStatus sts = 0;
-
-                  sts = mmMethods.mmLoad(out hModule, out version, out flags);
+                  load.Size = (uint)Marshal.SizeOf(typeof(MM_LOAD));
+                  mmStatus sts = mmMethods.mmLoad(ref load );
                   if (sts == mmStatus.MM_STS_NONE)
                   {
                      bool activated = false;
-                     if ((flags & MM_LOAD_CONTEXT.MM_LOAD_CONTEXT_ACTIVATED) == MM_LOAD_CONTEXT.MM_LOAD_CONTEXT_ACTIVATED)
+                     if ((load.OutFlags & MM_LOAD_CONTEXT.MM_LOAD_CONTEXT_ACTIVATED) == MM_LOAD_CONTEXT.MM_LOAD_CONTEXT_ACTIVATED)
                         activated = true;
 
                      String loadString = String.Format("mmAPI v{0}.{1}.{2} activated={3} flags={4}",
-                        version.Major.ToString().PadLeft(2, '0'), version.Minor.ToString().PadLeft(2, '0'), version.Micro.ToString().PadLeft(2, '0'),
-                        activated, flags);
+                        load.Version.Major.ToString().PadLeft(2, '0'), load.Version.Minor.ToString().PadLeft(2, '0'), load.Version.Micro.ToString().PadLeft(2, '0'),
+                        activated, load.OutFlags);
 
                      Console.WriteLine(loadString);
-                     return hModule;
+                     return true;
                   }
                }
             }
             catch (Exception e)
             {
-               Console.WriteLine("GetMultiMediaPath returned PATH: " + mmLibPath);
                Console.WriteLine(e.ToString());
             }
          }
-
-         flags = 0;
-         version.Major = 0;
-         version.Minor = 0;
-         version.Micro = 0;
-         return IntPtr.Zero;
+         Console.WriteLine($"Error, failed to Load mmAPI from {baseDirectory}");
+         return false;
       }
 
-      public static void MMRelease(IntPtr hModule)
+      public static void MMRelease(IntPtr hInterface)
       {
          // free managed resources
-         if (hModule != IntPtr.Zero)
-            mmMethods.mmRelease(hModule);
+         if (hInterface != IntPtr.Zero)
+            mmMethods.mmRelease(hInterface);
       }
 
       //----------------------  CALLBACK FUNCTIONS -------------------------//

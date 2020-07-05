@@ -135,17 +135,13 @@ mmStatus startSesssion(MM_CLIENT_OPEN* pOpenParms,
 
 int main(int argc, char** argv)
 {
-   mmStatus sts;
-   HINTERFACE hInterface;
-   MM_VERSION version;
-   MM_LOAD_CONTEXT flags;
-   MM_CLIENT_OPEN openParms;
-   MM_CLIENT_PLAY playParms;
-
    if (argc < 2) {
       displayHelp();
       return 1;
    }
+
+   MM_CLIENT_OPEN openParms;
+   MM_CLIENT_PLAY playParms;
 
    if (!parseDefaultsandCmdLine(argc, argv, &openParms, &playParms)) {
       displayHelp();
@@ -162,7 +158,10 @@ int main(int argc, char** argv)
    openParms.PDataUserData = NULL;
    openParms.OpenFlags = MM_CLIENT_REQUEST_VIDEO_TO_DISPLAY;
        
-   sts = mmLoad(&hInterface, &version, &flags);
+   mmStatus sts;
+   MM_LOAD load = { 0, };
+   load.Size = sizeof(MM_LOAD);
+   sts = mmLoad(&load);
    if (sts == MM_STS_NONE)
    {
       HSESSION hSession;
@@ -197,7 +196,7 @@ int main(int argc, char** argv)
          RemoveProp((HWND)openParms.HWnd, "hSession");
          sts = mmClose(hSession);
       }
-      mmRelease(hInterface);
+      mmRelease(load.HInterface);
    }
    
    printf("%s exiting with code 0x%x\n", argv[0], sts);
