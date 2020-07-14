@@ -263,7 +263,7 @@ typedef struct _MM_CLIENT_SOURCE
 
 //------------------------------------------------------------------------------
 
-typedef struct _MM_OVERLAY
+typedef struct _MM_SERVER_OVERLAY
 {
    unsigned             Size;                   // initialised to size of this structure
    char*                POverlayText;           // valid pointer to overlay text
@@ -271,7 +271,7 @@ typedef struct _MM_OVERLAY
    char*                PTextFont;              // font name, Arial used if unsupported or invalid
    char*                POverlayImage;          // not implemented, set to NULL
    MM_RECT              Position;               // bounding overlay points as percentages
-}  MM_OVERLAY, *PMM_OVERLAY;
+}  MM_SERVER_OVERLAY, *PMM_SERVER_OVERLAY;
 
 //------------------------------------------------------------------------------
 

@@ -519,21 +519,6 @@ int main(int argc, char** argv)
          mmDictionarySet(gHSession,"DEC_DEWARP", (char*)&gDewarp);
 #endif
 
-#if 0
-         MM_OVERLAY Overlay;
-         Overlay.Size = sizeof(MM_OVERLAY);
-         Overlay.POverlayText = "Display 1";
-         Overlay.PTextFont = TEXT("Arial");
-         Overlay.TextColor = RGB(0, 255, 255);
-         Overlay.POverlayImage = NULL;
-         Overlay.Position = { 0, };
-         Overlay.Position.top = 5;
-         Overlay.Position.left = 5;
-         Overlay.Position.right = 50;
-         Overlay.Position.bottom = 10;
-
-         mmDictionarySet(gHSession, "OVERLAY", (char*)&Overlay);
-#endif
          while (ghWndCounter)
          {
             Sleep(100); // do not overload thread
