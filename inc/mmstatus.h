@@ -16,6 +16,17 @@
 #define MM_STS_LIB_WARNING_BASE                    0x22000000
 #define MM_STS_LIB_INFO_BASE                       0x24000000
 
+#define MM_STS_HWM_ERROR_BASE                      0x31000000
+#define MM_STS_HWM_WARNING_BASE                    0x32000000
+#define MM_STS_HWM_INFO_BASE                       0x34000000
+
+// third party error base address
+#define MM_STS_LIB_INTEL_BASE                          0x1000
+#define MM_STS_LIB_AMD_BASE                            0x2000
+#define MM_STS_LIB_NVIDIA_DEC_BASE                     0x3000
+#define MM_STS_LIB_VCM_BASE                            0x4000
+#define MM_STS_LIB_NVIDIA_ENC_BASE                     0x5000
+
 //MM_STS_SRC_
 #define MM_STS_SRC_ERROR_UNKNOWN				         ( MM_STS_SRC_ERROR_BASE + 0x0001 )
 #define MM_STS_SRC_ERROR_UNINITIALISED             ( MM_STS_SRC_ERROR_BASE + 0x0002 )

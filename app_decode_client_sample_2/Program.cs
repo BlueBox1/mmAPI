@@ -312,7 +312,7 @@ namespace app_decode_client_sample_2
                if (status == (uint)mmStatus.MM_STS_SRC_INFO_NO_NETWORK_FRAME_TIMEOUT)
                {
                   // network frames not detected, try to re-connect
-                  window.PaintSessionStatus(msg); 
+                  window.LockPaintSessionStatus(msg);
                   window._watchDog.Enabled = true;
                }
             }
@@ -328,7 +328,7 @@ namespace app_decode_client_sample_2
                      (((uint)status & (uint)mmStatusBase.MM_STS_LIB_ERROR_BASE) == (uint)mmStatusBase.MM_STS_LIB_ERROR_BASE))
             {
                msg = $"ERROR - Session 0x{hSession:X} Status 0x{status:X} - {message}";
-               window.PaintSessionStatus(msg);
+               window.LockPaintSessionStatus(msg);
                window._watchDog.Enabled = true;
             }
             Debug.WriteLine(msg);

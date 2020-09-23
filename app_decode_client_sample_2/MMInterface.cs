@@ -58,6 +58,7 @@ namespace MM.SDK
          _windowParent = window;
          _taskList = new List<MM_TASK>();
          _thread = new Thread(threadLoop);
+         _thread.Name = "mmInterface";
          _ewh = new EventWaitHandle(false, EventResetMode.AutoReset);
          _thread.Start();
       }
@@ -273,13 +274,13 @@ namespace MM.SDK
                return mmStatus.MM_STS_SRC_ERROR_INCOMPATIBLE_API;
          }
 
-         _windowParent.PaintSessionStatus("Opening URL: " + _parms.Open.URL);
+         _windowParent.LockPaintSessionStatus("Opening URL: " + _parms.Open.URL);
 
          string basicAuth = _parms.Open.URL;
          if( (uint)flags != 0x80000000) // playlist case
-            _windowParent.PaintSessionStatus("Opening URL: " + _parms.Open.URL);
+            _windowParent.LockPaintSessionStatus("Opening URL: " + _parms.Open.URL);
 
-         _windowParent.SetSessionWindowText(_parms.Open.URL);
+         _windowParent.LockSetSessionWindowText(_parms.Open.URL);
 
          if (!string.IsNullOrEmpty(_parms.Open.UserName) && !string.IsNullOrEmpty(_parms.Open.PassWord))
          {
@@ -308,14 +309,14 @@ namespace MM.SDK
          mmStatus sts = mmMethods.mmClientOpen(out _hSession, ref _parms.Open.OpenParms);
          if (sts != mmStatus.MM_STS_NONE)
          {
-            _windowParent.PaintSessionStatus($"STATUS 0x{sts:X} Opening URL: " + _parms.Open.URL);
+            _windowParent.LockPaintSessionStatus($"STATUS 0x{sts:X} Opening URL: " + _parms.Open.URL);
             _windowParent._watchDog.Enabled = true;
             // start a fresh
             _parms.Play.StartTime = null;
             _parms.Play.EndTime = null;
          }
          else
-            _windowParent.PaintSessionStatus("");
+            _windowParent.LockPaintSessionStatus("");
 
          if (_parms.Open.OpenParms.PReserved != IntPtr.Zero)
             Marshal.FreeHGlobal(_parms.Open.OpenParms.PReserved);
@@ -379,16 +380,8 @@ namespace MM.SDK
          return sts;
       }
       public void Stop()
-      {
-         if (_thread != null)
-         {
-            // stop the task thread
-            InvokeMMTask(new MM_TASK(MM_TASK_ITEM.MM_STOP, 0, IntPtr.Zero, 0));
-            // stay in sync with the calling thread
-            _thread.Join();
-         }
-
-         do // drain task list
+      {           
+         do // drain task list, safe as we do not use _taskLock in threadLoop()
          {
             MM_TASK task = PopNextTask();
             if (task._item == MM_TASK_ITEM.MM_NONE)
@@ -398,6 +391,13 @@ namespace MM.SDK
          }
          while (true);
 
+         if (_thread != null)
+         {
+            // stop the task thread threadLoop()
+            InvokeMMTask(new MM_TASK(MM_TASK_ITEM.MM_STOP, 0, IntPtr.Zero, 0));
+            if (_thread.Join(35000) == false) // mmOpen could of just been called and not return for 20+ seconds..
+               Debug.Assert(false);
+         }
          // stay in sync with the calling thread
          _ewh.Close();
       }

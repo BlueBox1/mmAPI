@@ -6,6 +6,7 @@ using System.Diagnostics;
 using System.Timers;
 
 using MultiMedia;
+using System.Threading.Tasks;
 
 namespace MM.SDK
 {
@@ -77,32 +78,30 @@ namespace MM.SDK
       {
          // using this event allows all load event messages / painting to flush before starting
          // passing null into _interface will pick up the local data structure set from command line arguments
-         RestartSession(IntPtr.Zero, 0);
+         Task.Run(() => LockRestartSession(null));
       }
-      public bool CloseWindow(IntPtr childMarker, bool bChildUserCalled)
+      public void LockCloseWindow(uint childMarker)
       {
-         this.Hide();
-         // turn rendering off and hide this window
-         _interface._parms.Source.SourceParms.Flags |= MM_CLIENT_SOURCE_REQUEST.MM_CLIENT_SOURCE_RENDER;
-         _interface._parms.Source.SourceParms.BRender = 0;
-         _interface.InvokeMMTask(new MM_TASK(MM_TASK_ITEM.MM_DICT, mmSessionDictionaryKeys.CLI_SOURCE, IntPtr.Zero, 0));
-         // optomize resources
-         _interface._parms.Window.WindowParms.ShowState = SHOWSTATE.HIDE;
-         _interface._parms.Window.WindowParms.Placement.Right = 100;
-         _interface._parms.Window.WindowParms.Placement.Bottom = 100;
-         updateWindowMethod(_interface._parms.Window.WindowParms);
-         _interface.InvokeMMTask(new MM_TASK(MM_TASK_ITEM.MM_DICT, mmSessionDictionaryKeys.CLI_RESET, IntPtr.Zero, 0));
+         try
+         {
+            if (UIThreadCheck()) { return; }
 
-         _closing = true;
-         // all done close program
-         _interface.Stop();
-         // wait for timer to end, crude but safe
-         PaintSessionStatus("");
-         while (_watchDog.Enabled != false)
-            System.Threading.Thread.Sleep(100);
-         _watchDog.Close();
-         // close parent window for good
-         return true;
+            // all done close program
+            // Note, any mmOpen call can take 20+ seconds if the URL does not exist, 
+            // this is when the UI thread will also be writing error ststus to the screen
+            // _thread.Join() in _interface.Stop(); will deadlock (see InvokeRequired calls in MMWindow) 
+            // if we use the UI thread for the sync functionality (ie we want to clean up properly)
+            // we use a new task thread which we should be on
+            _closing = true; // used in _watchDog
+            _interface.Stop(); // stop and cleanup nicely
+            while (_watchDog.Enabled != false)
+               System.Threading.Thread.Sleep(100);
+            _watchDog.Close(); // safe to close correctly
+            // call this function with lParam set
+            MMInterop.SendMessage(GetHWND(), MMInterop.WM_CLOSE, IntPtr.Zero, (IntPtr)1);
+         }
+         catch { Debug.Assert(false); }
+         return;
       }
       protected override void WndProc(ref Message m)
       {
@@ -114,28 +113,49 @@ namespace MM.SDK
                _interface.InvokeMMTask(new MM_TASK(MM_TASK_ITEM.MM_DICT, mmSessionDictionaryKeys.CLI_RESET, IntPtr.Zero, 0));
 
             PaintStatus(_statusMessage); // this window only is resizing
+            m.Result = IntPtr.Zero;
+            return;
          }
          else if (m.Msg == MMInterop.WM_CLOSE)
          {
-            if (!CloseWindow(m.WParam, false))
+            this.Hide(); // parent close
+            if (m.LParam == IntPtr.Zero) // called by either user X or IPC 
+            {
+               // clean up on a thread that can use locks and wait for any outstanding mmOpen calls
+               uint childMarker = (uint)m.WParam;
+               Task.Run(() => LockCloseWindow(childMarker)); // set m.LParam to non-zero when ready
+               m.Result = IntPtr.Zero;
                return;
-
+            }
             m.WParam = IntPtr.Zero;
+            m.LParam = IntPtr.Zero;
             _HWnd = IntPtr.Zero;
             base.WndProc(ref m);
+            return;
          }
          else
             base.WndProc(ref m);
       }
-
-      private void RestartSession(IntPtr lpData, int dataSize)
+      private bool UIThreadCheck ()
       {
-         // lpData and dataSize exist if we are called from the MM_WINCMD_OPEN message (think carousel)
-         uint bybassWindowTxtStatus = 0;
-         if(lpData != IntPtr.Zero)
-            bybassWindowTxtStatus = 0x80000000;
+         if (this.InvokeRequired == false) //{ Debug.Assert(false); }
+         {
+            Debug.WriteLine("UIThreadCheck");
+            Debug.WriteLine("hWnd: '{0}'", GetHWND());
+            Debug.WriteLine("StackTrace: '{0}'", Environment.StackTrace);
+            return true;
+         }
+         return false;
+      }
+      private void LockRestartSession(MM_TASK openTask)
+      {
+         if (UIThreadCheck()) { return; }
+
          _interface.InvokeMMTask(new MM_TASK(MM_TASK_ITEM.MM_CLOSE, 0, IntPtr.Zero, 0));
-         _interface.InvokeMMTask(new MM_TASK(MM_TASK_ITEM.MM_OPEN, (mmSessionDictionaryKeys)bybassWindowTxtStatus, lpData, dataSize));
+         if(openTask == null)
+            _interface.InvokeMMTask(new MM_TASK(MM_TASK_ITEM.MM_OPEN, 0, IntPtr.Zero, 0));
+         else
+            _interface.InvokeMMTask(openTask);
          _interface.InvokeMMTask(new MM_TASK(MM_TASK_ITEM.MM_PLAY, 0, IntPtr.Zero, 0));
 
          // set any source parameters
@@ -150,25 +170,32 @@ namespace MM.SDK
       }
       private void OnTimedEvent(object source, ElapsedEventArgs e)
       {
+         _watchDog.Enabled = false;
          Debug.WriteLine($"WATCHDOG {0}\n", e.SignalTime);
 
          if (!_closing && GetSessionState() != MM_TASK_ITEM.MM_OPEN && _statusMessage.Length > 0) // keep trying to re-open
-            RestartSession(IntPtr.Zero, 0);
+         {
+            LockRestartSession(null);
+            _watchDog.Enabled = true;
+         }
          else
             _watchDog.Enabled = false;
       }
+      public void LockPaintSessionStatus(string status)
+      {
+         if (UIThreadCheck()) { return; }
+         this.Invoke(new Action<string>(PaintStatus), status);
 
-      public void PaintSessionStatus(string status)
-      {
-         PaintStatus(status);
       }
-      public void SetSessionWindowText(string txt)
+      public void LockSetSessionWindowText(string txt)
       {
-         SetWindowText(txt);
+         if (UIThreadCheck()) { return; }
+         this.Invoke(new Action<string>(SetWindowText), txt);
       }
-      public void SetSessionOSDText(string txt)
+      public void LockSetSessionOSDText(string txt)
       {
-         SetOSDText(txt, this.Width, this.Height);
+         if (UIThreadCheck()) { return; }
+         this.Invoke(new Action<string, int, int>(SetOSDText), txt, this.Width, this.Height);
       }
    }
 }

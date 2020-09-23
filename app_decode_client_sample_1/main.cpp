@@ -516,7 +516,7 @@ int main(int argc, char** argv)
          gDewarp.YAngle = 1.0f;
          gDewarp.FOV = 1.2f;
 
-         mmDictionarySet(gHSession,"DEC_DEWARP", (char*)&gDewarp);
+         mmDictionarySet(gHSession,"CLI_DEWARP", (char*)&gDewarp);
 #endif
 
          while (ghWndCounter)

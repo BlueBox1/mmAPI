@@ -13,14 +13,17 @@ namespace MM.SDK
    {
       public IntPtr _HWnd = IntPtr.Zero;
       protected int _ARGBTheme = 0x00FFFF;
-      private readonly object _paintLock = new object();
       protected string _statusMessage = "";
       protected bool _updatingWindow = false;
-      private Label _osd = null;
+      protected Label _osd = null;
+
+      public delegate bool updateWindowDelegate(MM_WINDOW window);
+      public updateWindowDelegate myUpdateWindowDelegate;
 
       public Window(int argbTheme)
       {
          _ARGBTheme = argbTheme;
+         myUpdateWindowDelegate = new updateWindowDelegate(updateWindowMethod);
          InitializeComponent();
       }
       public IntPtr GetHWND()
@@ -38,6 +41,8 @@ namespace MM.SDK
                else
                   break;
             }
+            if (_HWnd == IntPtr.Zero)
+               Debug.Assert(false);
          }
          return _HWnd;
       }
@@ -46,7 +51,8 @@ namespace MM.SDK
       {
          if (this.InvokeRequired)
          {
-            this.Invoke(new Action<string, int, int>(SetOSDText), txt, wWidth, wHeight);
+            Debug.Assert(false);
+            //this.Invoke(new Action<string, int, int>(SetOSDText), txt, wWidth, wHeight);
             return;
          }
          else
@@ -77,15 +83,20 @@ namespace MM.SDK
       {
          if (this.InvokeRequired)
          {
-            this.Invoke(new Action<string>(SetWindowText), txt);
+            Debug.Assert(false);
+            //this.Invoke(new Action<string>(SetWindowText), txt);
             return;
          }
          this.Text = txt;
       }
       public bool updateWindowMethod(MM_WINDOW window)
       {
-         if (this.InvokeRequired) // TODO:
+         if (this.InvokeRequired)
+         {
+            Debug.Assert(false);
+            //return (bool)this.Invoke(myUpdateWindowDelegate, new object[] { window });
             return false;
+         }
 
          bool bRedraw = false;
          _updatingWindow = true;
@@ -145,7 +156,8 @@ namespace MM.SDK
       {
          if (this.InvokeRequired)
          {
-            this.Invoke(new Action<string>(PaintStatus), status);
+            Debug.Assert(false);
+            //this.Invoke(new Action<string>(PaintStatus), status);
             return;
          }
          _statusMessage = status;
@@ -158,27 +170,24 @@ namespace MM.SDK
                area.Left = 0; area.Top = 0; area.Right = (int)graphics.VisibleClipBounds.Width; area.Bottom = (int)graphics.VisibleClipBounds.Height;
                if (status.Length > 0)
                {
-                  lock (_paintLock)
+                  using (Font fontScaled = new Font("Arial", 120, FontStyle.Bold, GraphicsUnit.Pixel))
                   {
-                     using (Font fontScaled = new Font("Arial", 120, FontStyle.Bold, GraphicsUnit.Pixel))
-                     {
-                        ApplyLetterBoxing(ref area);
+                     ApplyLetterBoxing(ref area);
 
-                        Rectangle bounds = new Rectangle(area.Left, area.Top, area.Right - area.Left, area.Bottom - area.Top);
+                     Rectangle bounds = new Rectangle(area.Left, area.Top, area.Right - area.Left, area.Bottom - area.Top);
 
-                        graphics.Clear(Color.Black);
+                     graphics.Clear(Color.Black);
 
-                        Font goodFont = FindFont(graphics, status, bounds.Size, fontScaled);
+                     Font goodFont = FindFont(graphics, status, bounds.Size, fontScaled);
 
-                        TextFormatFlags flags = TextFormatFlags.VerticalCenter | TextFormatFlags.HorizontalCenter |
-                        TextFormatFlags.TextBoxControl | TextFormatFlags.WordBreak | TextFormatFlags.EndEllipsis;
+                     TextFormatFlags flags = TextFormatFlags.VerticalCenter | TextFormatFlags.HorizontalCenter |
+                     TextFormatFlags.TextBoxControl | TextFormatFlags.WordBreak | TextFormatFlags.EndEllipsis;
 
-                        TextRenderer.DrawText(graphics, status, goodFont,
-                              new Rectangle(area.Left, area.Top, area.Right - area.Left, area.Bottom - area.Top),
-                              Color.FromArgb((byte)((_ARGBTheme >> 16) & 0xff), (byte)((_ARGBTheme >> 8) & 0xff), (byte)(_ARGBTheme & 0xff)),
-                              flags);
-                        graphics.Dispose();
-                     }
+                     TextRenderer.DrawText(graphics, status, goodFont,
+                           new Rectangle(area.Left, area.Top, area.Right - area.Left, area.Bottom - area.Top),
+                           Color.FromArgb((byte)((_ARGBTheme >> 16) & 0xff), (byte)((_ARGBTheme >> 8) & 0xff), (byte)(_ARGBTheme & 0xff)),
+                           flags);
+                     graphics.Dispose();
                   }
                }
                if (_osd != null)

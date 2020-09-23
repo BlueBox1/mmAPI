@@ -26,6 +26,7 @@ namespace MM.SDK
       public const int SW_RESTORE = 9;
       public const int SW_SHOW = 5;
 
+      public const uint GW_OWNER = 4;
       public const uint GW_HWNDPREV = 3;
       public const uint GW_HWNDLAST = 1;
 
@@ -77,6 +78,12 @@ namespace MM.SDK
       [DllImport("user32.dll", CallingConvention = CallingConvention.StdCall, SetLastError = true)]
       public static extern bool IsWindow(IntPtr hWnd);
 
+      [DllImport("user32.dll", CallingConvention = CallingConvention.StdCall, SetLastError = true)]
+      public static extern uint GetWindowThreadProcessId(IntPtr hWnd, out uint lpdwProcessId);
+
+      [DllImport("user32.dll", CallingConvention = CallingConvention.StdCall, SetLastError = true)]
+      public static extern bool CloseWindow(IntPtr hWnd);
+
       [DllImport("msvcrt.dll", EntryPoint = "memcpy", CallingConvention = CallingConvention.Cdecl, SetLastError = false)]
       public static extern IntPtr memcpy(IntPtr dest, IntPtr src, UIntPtr count);
 
@@ -84,8 +91,9 @@ namespace MM.SDK
       [DllImport("Kernel32", SetLastError = true)]
       public static extern bool SetConsoleCtrlHandler(ConsoleEventDelegate handler, bool add);
 
-      // Send Massage
-      public static IntPtr HWND_BROADCAST = new IntPtr(0xffff);
+
+        // Send Massage
+        public static IntPtr HWND_BROADCAST = new IntPtr(0xffff);
       [StructLayout(LayoutKind.Sequential)]
       public struct COPYDATASTRUCT
       {

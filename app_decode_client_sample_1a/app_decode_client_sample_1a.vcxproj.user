@@ -11,7 +11,7 @@
     <DeploymentDirectory>C:\multimedia\debug</DeploymentDirectory>
     <AdditionalFiles>C:\Code\bluebox\SOURCE\multimedia-source\sdk\bin\$(Platform)\$(Configuration)\multimedia.dll</AdditionalFiles>
     <RemoteDebuggerDeployDebugCppRuntime>false</RemoteDebuggerDeployDebugCppRuntime>
-    <LocalDebuggerCommandArguments>-url=rtsp://admin:bluebox2017@192.168.0.232:554/onvif/profile10/media.smp -x=0 -y=0 -w=640 -h=480</LocalDebuggerCommandArguments>
+    <LocalDebuggerCommandArguments>-url="D:\\logs\\logs_VIEWSPAN setup\\0x2599500.h264" -x=0 -y=0 -w=640 -h=480 -borders=1</LocalDebuggerCommandArguments>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LocalDebuggerCommandArguments>-url=RTSP://192.168.0.102:7001/b20ce8b2-abe6-2a04-c673-eba194f21fbe</LocalDebuggerCommandArguments>

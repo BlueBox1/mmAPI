@@ -252,7 +252,7 @@ namespace MultiMedia
    //------------------------------------------------------------------------------
 
    [StructLayout(LayoutKind.Sequential, Pack = 1)]
-   public struct MM_OVERLAY
+   public struct MM_SERVER_OVERLAY
    {
       public uint    Size;                   // initialised to size of this structure
       public IntPtr  POverlayText;           // valid pointer to overlay text
@@ -577,7 +577,7 @@ namespace MultiMedia
       CLI_DEWARP = 3,
 
       /// <summary>
-      /// key "overlay"  value MM_OVERLAY*
+      /// key "svr_overlay"  value MM_OVERLAY*
       /// Set session overlay
       /// Use pointer to a MM_OVERLAY structure
       /// IntPtr pnt = Marshal.AllocHGlobal(Marshal.SizeOf(Parms))
@@ -587,7 +587,7 @@ namespace MultiMedia
       /// Example:
       ///     mmDictionarySet(hSession,  "overlay", pnt);
       /// </summary>
-      OVERLAY = 4,
+      SVR_OVERLAY = 4,
 
       /// <summary>
       /// key "svr_update_hwnd"  value pnt
