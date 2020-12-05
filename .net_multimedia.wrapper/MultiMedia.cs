@@ -172,6 +172,7 @@ namespace MultiMedia
       public MM_VERSION Version;             // out - version of the interface
       public MM_LOAD_CONTEXT OutFlags;       // out - load context flags
       public IntPtr HInterface;              // out - handle to the loaded interface
+      public uint ActivationCount;           // out - activated licence count
    }
 
    //------------------------------------------------------------------------------

@@ -17,9 +17,12 @@ namespace MM.SDK
 
       public static void InitClientParms(uint ar, MMParameters parms)
       {
-         parms.Context = CONTEXT.INTERNAL;
+         parms.Context = CONTEXT.EXTERNAL;
          parms.ChildMarker = 0;
          parms.uintID = 0;
+         parms.ARGBTheme= 0x00FFFF;
+         parms.TimeoutMS = 10000;
+         parms.Logpath = null;
 
          parms.Open = new Open();
          parms.Play = new Play();
@@ -63,6 +66,8 @@ namespace MM.SDK
          parms.Window.WindowParms.ShowState = SHOWSTATE.SHOW;
          parms.Window.WindowParms.ZOrder = 0;
          parms.Window.WindowParms.TopMost = false;
+         parms.Window.WindowParms.Alarm = 0;
+         parms.Window.WindowParms.AlarmRGB = 0xFF0000;
 
          parms.Dewarp.DewarpParms.Size = (uint)Marshal.SizeOf(typeof(MM_CLIENT_DEWARP));
          parms.Dewarp.DewarpParms.BSessionEnabled = 0;
@@ -165,18 +170,7 @@ namespace MM.SDK
                   load.Size = (uint)Marshal.SizeOf(typeof(MM_LOAD));
                   mmStatus sts = mmMethods.mmLoad(ref load );
                   if (sts == mmStatus.MM_STS_NONE)
-                  {
-                     bool activated = false;
-                     if ((load.OutFlags & MM_LOAD_CONTEXT.MM_LOAD_CONTEXT_ACTIVATED) == MM_LOAD_CONTEXT.MM_LOAD_CONTEXT_ACTIVATED)
-                        activated = true;
-
-                     String loadString = String.Format("mmAPI v{0}.{1}.{2} activated={3} flags={4}",
-                        load.Version.Major.ToString().PadLeft(2, '0'), load.Version.Minor.ToString().PadLeft(2, '0'), load.Version.Micro.ToString().PadLeft(2, '0'),
-                        activated, load.OutFlags);
-
-                     Console.WriteLine(loadString);
                      return true;
-                  }
                }
             }
             catch (Exception e)
@@ -188,6 +182,24 @@ namespace MM.SDK
          return false;
       }
 
+      public static bool MMLoadEx(ref MM_LOAD load, string path)
+      {
+         try
+         {
+            if (MMInterop.SetDllDirectory(path))
+            {
+               load.Size = (uint)Marshal.SizeOf(typeof(MM_LOAD));
+               mmStatus sts = mmMethods.mmLoad(ref load);
+               if (sts == mmStatus.MM_STS_NONE)
+                  return true;
+            }
+         }
+         catch (Exception e)
+         {
+            //Console.WriteLine(e.ToString());
+         }
+         return false;
+      }
       public static void MMRelease(IntPtr hInterface)
       {
          // free managed resources

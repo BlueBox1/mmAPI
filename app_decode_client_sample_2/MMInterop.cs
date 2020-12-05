@@ -29,12 +29,17 @@ namespace MM.SDK
       public const uint GW_OWNER = 4;
       public const uint GW_HWNDPREV = 3;
       public const uint GW_HWNDLAST = 1;
+      
+      public const int GWL_STYLE = -16;
+      public const int WS_SIZEBOX = 0x40000;
 
       public const int WM_COPYDATA = 0x004A;
       public const int WM_SETTEXT = 0x000C;
       public const int WM_CLOSE = 0x0010;
       public const int WM_SIZE = 0x0005;
-    
+      public const int WM_LBUTTONDOWN = 0x0201;
+      public const int WM_WINDOWPOSCHANGED = 0x0047;
+
       [DllImport("kernel32.dll", CallingConvention = CallingConvention.StdCall, SetLastError = true, CharSet = CharSet.Unicode)]
       public static extern bool SetDllDirectory(string lpFileName);
 
@@ -91,9 +96,13 @@ namespace MM.SDK
       [DllImport("Kernel32", SetLastError = true)]
       public static extern bool SetConsoleCtrlHandler(ConsoleEventDelegate handler, bool add);
 
+      [DllImport("user32.dll", CallingConvention = CallingConvention.StdCall, SetLastError = true)]
+      public static extern int SetWindowLong(IntPtr hWnd, int nIndex, uint dwNewLong);
+      [DllImport("user32.dll", EntryPoint = "GetWindowLongPtr", CallingConvention = CallingConvention.StdCall, SetLastError = true)]
+      public static extern IntPtr GetWindowLongPtr(IntPtr hWnd, int nIndex);
 
-        // Send Massage
-        public static IntPtr HWND_BROADCAST = new IntPtr(0xffff);
+      // Send Massage
+      public static IntPtr HWND_BROADCAST = new IntPtr(0xffff);
       [StructLayout(LayoutKind.Sequential)]
       public struct COPYDATASTRUCT
       {
@@ -176,10 +185,10 @@ namespace MM.SDK
          SetWindowPos(hWnd, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOSIZE | SWP_NOMOVE);
       }
    
-      public static void MinimizeConsoleWindow()
+      public static void ShowConsoleWindow(int cmd)
       {
          IntPtr hWndConsole = GetConsoleWindow();
-         ShowWindow(hWndConsole, SW_MINIMIZE);
+         ShowWindow(hWndConsole, cmd);
       }
 
       public static bool GetWindowZOrder(IntPtr hWnd, out int zOrder)

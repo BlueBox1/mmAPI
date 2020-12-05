@@ -8,7 +8,6 @@ namespace MM.SDK
    {
       INTERNAL = 1,
       EXTERNAL = 2,
-      BROWSER = 3,
    }
    public enum SHOWSTATE
    {
@@ -27,6 +26,8 @@ namespace MM.SDK
       public SHOWSTATE        ShowState;
       public int              ZOrder;
       public bool             TopMost;
+      public uint             Alarm;
+      public uint             AlarmRGB;
    }
 
    [StructLayout(LayoutKind.Sequential, Pack = 1)]
@@ -37,6 +38,7 @@ namespace MM.SDK
       public string           UserName;
       public string           PassWord;
       public uint             Reserved;
+      public string           Arguments;
    }
    [StructLayout(LayoutKind.Sequential, Pack = 1)]
    public class Play
@@ -72,6 +74,10 @@ namespace MM.SDK
       public uint uintID { get; set; }
       public uint ChildMarker { get; set; }
       public CONTEXT Context { get; set; }
+      public int ARGBTheme { get; set; }
+      public int TimeoutMS { get; set; }
+      public string Logpath { get; set; }
+      public string OSD { get; set; }
       public Open Open { get; set; }
       public Play Play { get; set; }
       public WindowForm Window { get; set; }

@@ -191,6 +191,7 @@ typedef struct _MM_LOAD                         // load settings structure
    MM_VERSION           Version;                // out - version of the interface
    MM_LOAD_CONTEXT      OutFlags;               // out - load context flags
    HINTERFACE           HInterface;             // out - handle to the loaded interface
+   unsigned             ActivationCount;        // out - activated licence count
 }  MM_LOAD, *PMM_LOAD;
 
 //------------------------------------------------------------------------------
