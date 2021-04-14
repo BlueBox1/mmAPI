@@ -84,5 +84,7 @@ namespace MM.SDK
       public Dewarp Dewarp { get; set; }
       public Zoom Zoom { get; set; }
       public Source Source { get; set; }
+      public bool AudioEnabled { get; set; }
+      public bool AudioSubtitles { get; set; }
    }
 }

@@ -1,7 +1,7 @@
 {\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033\deflangfe2052{\fonttbl{\f0\fnil\fcharset0 Calibri;}{\f1\fnil\fcharset0 Tahoma;}{\f2\fnil Consolas;}{\f3\fnil\fcharset0 Consolas;}{\f4\froman\fprq2\fcharset0 Calibri;}{\f5\fnil\fcharset2 Symbol;}}
 {\colortbl ;\red46\green117\blue181;\red0\green0\blue0;\red30\green77\blue120;\red43\green145\blue175;\red111\green0\blue138;\red163\green21\blue21;\red255\green0\blue0;\red0\green0\blue255;}
 {\stylesheet{ Normal;}{\s1 heading 1;}{\s2 heading 2;}{\s3 heading 3;}}
-{\*\generator Riched20 10.0.17763}{\*\mmathPr\mdispDef1\mwrapIndent1440 }\viewkind4\uc1 
+{\*\generator Riched20 10.0.18362}{\*\mmathPr\mdispDef1\mwrapIndent1440 }\viewkind4\uc1 
 \pard\keep\keepn\nowidctlpar\s1\sb240\sl276\slmult1\cf1\b\f0\fs32 Multimedia API Programmers Guide\par
 
 \pard\widctlpar\sl240\slmult1\cf2\b0\f1\fs22\par
@@ -17,7 +17,9 @@ Hardware memory allocation and bandwidth negotiation provide high performance ga
 \par
 FFMPEG is used for transport and muxing by default. \par
 \par
-Direct use of the Live555 streaming library can be accessed for RTSP delivery of H264, H265 & MJPEG coded streams by specifying capital \b [RTSP]\b0  in the address url, lower case \b [rtsp] \b0 will invoke FFMPEG RTSP streaming. Using Live555 for RTSP allows users to specify UTC Absolute Play time in accordance with RTSP RFC 2326 section 3.7 and ONVIF Streaming Specification for RTSP Audio and Video Synchronization section 5.2.1.1.2. \par
+For Real-Time Transpot Protocal (RTSP) the Live555 streaming library is used by default, FFMPEG is used for all other transport and muxing. \par
+\par
+Specifying capital \b [RTSP]\b0  as the address url will override Live555 and invoke FFMPEG RTSP streaming. Using Live555 for RTSP allows users to specify UTC Absolute Play time in accordance with RTSP RFC 2326 section 3.7 and ONVIF Streaming Specification for RTSP Audio and Video Synchronization section 5.2.1.1.2. \par
 \par
 The multimedia interface is written in the C++ language, however, user callbacks are provided with the __stdcall calling convention for compatibility with .NET. The interface is thread safe during simultaneous execution by multiple threads and multiple session access under a single process. API function calls are synchronized and will return the appropriate error. Runtime errors are provided by the status callback function detailed further below.\par
 \par
@@ -92,7 +94,7 @@ PURL = "stream:http://165.12.12.1/my_resource.mp4"\lang1033\par
 
 \pard\keep\keepn\nowidctlpar\s2\sb40\sl276\slmult1\cf1\b\f0\fs26 Client play command\par
 
-\pard\widctlpar\sl240\slmult1\cf2\b0\fs22 The multimedia API optionally accepts Absolute Time parameters as part of the \b mmClientPlay \b0 command. Use of Absolute Time for RTSP requires the use of \b [RTSP] \b0 in capitals for reasons described in this document introduction.\b  \b0 Absolute Time is expressed as ISO 8601 timestamps, using Universal Coordinated Time (UTC) as the reference clock. See RTSP standard RFC 2326 for further details.\par
+\pard\widctlpar\sl240\slmult1\cf2\b0\fs22 The multimedia API optionally accepts Absolute Time parameters as part of the \b mmClientPlay \b0 command. Absolute Time is expressed as ISO 8601 timestamps, using Universal Coordinated Time (UTC) as the reference clock. See RTSP standard RFC 2326 for further details.\par
 \par
 Fractions of a second may also be indicated:\par
 \par

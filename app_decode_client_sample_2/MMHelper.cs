@@ -2,8 +2,6 @@
 using System.IO;
 using System.Threading.Tasks;
 using System.Runtime.InteropServices;
-using System.Windows.Forms;
-using Microsoft.Win32;
 using System.Security.AccessControl;
 using System.Security.Principal;
 
@@ -93,23 +91,7 @@ namespace MM.SDK
          parms.Source.SourceParms.BRender = 1;
          parms.Source.SourceParms.BEnforceAR = ar;
       }
-      public static int userToRealX(int x)
-      {
-         return SystemInformation.VirtualScreen.X + x;
-      }
-      public static int userToRealY(int y)
-      {
-         return SystemInformation.VirtualScreen.Y + y;
-      }
-      public static int realToUserX(int x)
-      {
-         return Math.Abs(SystemInformation.VirtualScreen.X) + x;
-      }
-      public static int realToUserY(int y)
-      {
-         return Math.Abs(SystemInformation.VirtualScreen.Y) + y;
-      }
-
+     
       //----------------------  LOAD FUNCTIONS -------------------------//
 
       public static string GetMultiMediaPath(string baseDirectory)

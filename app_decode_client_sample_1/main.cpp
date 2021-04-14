@@ -440,7 +440,7 @@ mmStatus startSesssion(HWND hWnd, char* pURL, char* pStartTime, char* pEndTime, 
    openParms.CacheVideo = cache; // 1000 = 1 second
    
    // force specific decode route in favour of auto
-   int forceDecode = DECODE_ROUTE_AUTO;
+   int forceDecode = DECODE_ROUTE_AUTO;// DECODE_ROUTE_FFMPEG;// DECODE_ROUTE_AUTO;
    openParms.PReserved = &forceDecode;
 
    sts = mmClientOpen(&hSession, &openParms);

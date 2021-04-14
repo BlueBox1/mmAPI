@@ -28,16 +28,33 @@ The interface utilizes all available system accelerated hardware architectures a
 The API will degrade to a CPU CODECS when acceleration methods are either exhausted or unsupported.<p></p>
 Using a combination of low level proprietary API's alongside Microsoft DirectX technology, the MultiMedia interface removes initial and ongoing complexities for video encode, decode, transcode and transport.<p></p>
 Hardware memory allocation and bandwidth negotiation provide high performance gains over traditional methods.<p></p>
-RTSP streaming via Live555 can be accessed in favour of FFMPEG, see programmers guide for full details. Using Live555 for RTSP allows users to specify UTC Absolute Play time in accordance with RTSP RFC 2326 section 3.7 and ONVIF Streaming Specification for RTSP Audio and Video Synchronization section 5.2.1.1.2.<p></p>
-FFMPEG is used for transport and muxing by default.
+RTSP streaming via Live555 is used in favour of FFMPEG, see programmers guide for full details. Using Live555 for RTSP allows users to specify UTC Absolute Play time in accordance with RTSP RFC 2326 section 3.7 and ONVIF Streaming Specification for RTSP Audio and Video Synchronization section 5.2.1.1.2.<p></p>
+FFMPEG is used for transport and muxing by default for all other protocols.
 <p></p>
 <p></p>
 <hr />
 
 <h3>Version</h3>
+<h3>v 4.5.0 - 25/02/2020</h3>
+Added support for multiple appliances in a single user interface model.
+Added appliance discovery to AWP.
+Added Inputs and Layouts synchronization between discovered appliances.
+Added WebView2 control for Edge Chromium when available.
+Added 'Administrator' and 'Operator' login roles with restrictions.
+Added support for uploading local multimedia images and video in the 'Add Manual Inputs' page.
+Added support for HLS streaming
+Added support for AWP touch interface.
+<h3>v 4.4.4 - 18/12/2020</h3>
+Platform privileges enforced for system network changes
+<h3>v 4.4.3 - 16/12/2020</h3>
+AWP persistent storage of ONVIF input sources
+AWP support for VNC and static image windows
+<h3>v 4.4.2 - 12/12/2020</h3>
+AWP support for Vision AV capture cards
+AWP improved support for ONVIF service
 <h3>v 4.4.1 - 10/12/2020</h3>
 Properties added to AMP browser 'Layout' page for user control
-Online licence activation service tailored to display count usage
+AWP online licence activation service tailored to display count usage
 <h3>v 4.4.0 - 04/11/2020</h3>
 Initial release of AMP browser 'Layout' page for user control
 <h3>v 4.3.5 - 18/10/2020</h3>

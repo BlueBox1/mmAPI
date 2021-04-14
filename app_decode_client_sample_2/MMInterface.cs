@@ -14,9 +14,13 @@ namespace MM.SDK
       MM_NONE = 0xFF,
       MM_STOP = 0x0,
       MM_CLOSE = 0x1,
+      MM_CLOSED = 0x11,
       MM_OPEN = 0x2,
+      MM_OPENED = 0x22,
       MM_PLAY = 0x4,
+      MM_PLAYING = 0x44,
       MM_PAUSE = 0x8,
+      MM_PAUSED = 0x88,
       MM_DICT = 0x10,
    };
    public class MM_TASK
@@ -152,20 +156,24 @@ namespace MM.SDK
                _run = false;
                goto case MM_TASK_ITEM.MM_CLOSE;
             case MM_TASK_ITEM.MM_CLOSE:
+                _state = MM_TASK_ITEM.MM_CLOSE;
                sts = closeSession(task._dictKey, task._lpData);
-               _state = MM_TASK_ITEM.MM_CLOSE;
+               _state = MM_TASK_ITEM.MM_CLOSED;
                break;
             case MM_TASK_ITEM.MM_OPEN:
-               sts = openSesssion(task._dictKey, task._lpData);
                _state = MM_TASK_ITEM.MM_OPEN;
+               sts = openSesssion(task._dictKey, task._lpData);
+               _state = MM_TASK_ITEM.MM_OPENED;
                break;
             case MM_TASK_ITEM.MM_PLAY:
-               sts = playSesssion(task._dictKey, task._lpData);
                _state = MM_TASK_ITEM.MM_PLAY;
+               sts = playSesssion(task._dictKey, task._lpData);
+               _state = MM_TASK_ITEM.MM_PLAYING;
                break;
             case MM_TASK_ITEM.MM_PAUSE:
-               sts = pauseSesssion(task._dictKey, task._lpData);
                _state = MM_TASK_ITEM.MM_PAUSE;
+               sts = pauseSesssion(task._dictKey, task._lpData);
+               _state = MM_TASK_ITEM.MM_PAUSED;
                break;
             case MM_TASK_ITEM.MM_DICT:
                sts = dictSession(task._dictKey, task._lpData);
@@ -273,9 +281,7 @@ namespace MM.SDK
             else
                return mmStatus.MM_STS_SRC_ERROR_INCOMPATIBLE_API;
          }
-
-         _windowParent.LockPaintSessionStatus("Opening URL: " + _parms.Open.URL);
-
+         
          string basicAuth = _parms.Open.URL;
          if( (uint)flags != 0x80000000) // playlist case
             _windowParent.LockPaintSessionStatus("Opening URL: " + _parms.Open.URL);

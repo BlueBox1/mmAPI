@@ -174,12 +174,7 @@ namespace MM.SDK
          Debug.WriteLine($"WATCHDOG {0}\n", e.SignalTime);
 
          if (!_closing && GetSessionState() != MM_TASK_ITEM.MM_OPEN && _statusMessage.Length > 0) // keep trying to re-open
-         {
             LockRestartSession(null);
-            _watchDog.Enabled = true;
-         }
-         else
-            _watchDog.Enabled = false;
       }
       public void LockPaintSessionStatus(string status)
       {
