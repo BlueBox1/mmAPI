@@ -288,7 +288,7 @@ namespace MM.SDK
 
          _windowParent.LockSetSessionWindowText(_parms.Open.URL);
 
-         if (!string.IsNullOrEmpty(_parms.Open.UserName) && !string.IsNullOrEmpty(_parms.Open.PassWord))
+         if (!string.IsNullOrEmpty(_parms.Open.UserName))
          {
             var index = _parms.Open.URL.IndexOf("://");
             if (index != -1)

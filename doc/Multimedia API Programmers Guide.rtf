@@ -1,7 +1,7 @@
 {\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033\deflangfe2052{\fonttbl{\f0\fnil\fcharset0 Calibri;}{\f1\fnil\fcharset0 Tahoma;}{\f2\fnil Consolas;}{\f3\fnil\fcharset0 Consolas;}{\f4\froman\fprq2\fcharset0 Calibri;}{\f5\fnil\fcharset2 Symbol;}}
 {\colortbl ;\red46\green117\blue181;\red0\green0\blue0;\red30\green77\blue120;\red43\green145\blue175;\red111\green0\blue138;\red163\green21\blue21;\red255\green0\blue0;\red0\green0\blue255;}
 {\stylesheet{ Normal;}{\s1 heading 1;}{\s2 heading 2;}{\s3 heading 3;}}
-{\*\generator Riched20 10.0.18362}{\*\mmathPr\mdispDef1\mwrapIndent1440 }\viewkind4\uc1 
+{\*\generator Riched20 10.0.19041}{\*\mmathPr\mdispDef1\mwrapIndent1440 }\viewkind4\uc1 
 \pard\keep\keepn\nowidctlpar\s1\sb240\sl276\slmult1\cf1\b\f0\fs32 Multimedia API Programmers Guide\par
 
 \pard\widctlpar\sl240\slmult1\cf2\b0\f1\fs22\par
@@ -156,7 +156,7 @@ The API provides \b mmDictionarySet()\b0  and \b mmDictionaryGet() \b0 to act as
 
 \pard\widctlpar\sa160\sl252\slmult1\cf2\b\f3\fs19\lang2057 key \cf6\b0 cli_dewarp \cf2\b\f0\fs22\lang1033 value \cf6\b0\f3\fs19\lang2057 MM_CLIENT_DEWARP*\cf7\f0\fs22\lang1033\par
 \cf0 Set decode session fisheye dewarping paramers\lang2057 . \lang1033 Use pointer to a MM_CLIENT_DEWARP structure\lang2057  as described in mmtypes.h. Client and display use case only.\par
-\cf2\b\f3\fs19 key \cf6\b0 overlay \cf2\b\f0\fs22\lang1033 value \cf6\b0\f3\fs19\lang2057 MM_OVERLAY*\cf7\f0\fs22\lang1033\par
+\cf2\b\f3\fs19 key \cf6\b0 svr_overlay \cf2\b\f0\fs22\lang1033 value \cf6\b0\f3\fs19\lang2057 MM_OVERLAY*\cf7\f0\fs22\lang1033\par
 \cf0 Set \lang2057 the \lang1033 encode or decode session overlay parameters. Use pointer to a MM_OVERLAY structure\lang2057  as described in mmtypes.h\par
 \cf2\b\f3\fs19 key \cf6\b0 svr_update_hwnd \cf2\b\f0\fs22\lang1033 value \cf6\b0\f3\fs19\lang2057 HWND*\cf7\f0\fs22\lang1033\par
 
@@ -169,10 +169,11 @@ The API provides \b mmDictionarySet()\b0  and \b mmDictionaryGet() \b0 to act as
 \cf0 Set source attributes such as maintaining the aspect ration of source through the use of MM_CLIENT_SOURCE. Use a pointer to a MM_CLIENT_SOURCE structure\lang2057  as described in mmtypes.h. Client and display use case only.\par
 \cf2\b\f3\fs19 key \cf6\b0 cli_child \cf2\b\f0\fs22\lang1033 value \cf6\b0\f3\fs19\lang2057 MM_CLIENT_CHILD*\cf7\f0\fs22\lang1033\par
 \cf0 To allow for a session to share decoding network and decoding resources, the MM_CLIENT_CHILD concept allows the current session to me cloned and \kerning1\f4 independent \kerning0\f0 PAUSE, PLAY, DEWARP and ZOOM parameters to be set for a new user defined window handle. Use a pointer to a MM_CLIENT_CHILD structure\lang2057  as described in mmtypes.h. Client and display use case only.\par
+\cf2\b\f3\fs19 key \cf6\b0 svr_privacy \cf2\b\f0\fs22\lang1033 value \cf6\b0\f3\fs19\lang2057 on\cf7\f0\fs22\lang1033  | \cf6\f3\fs19\lang2057 off\cf7\f0\fs22\lang1033\par
+\cf0 Encode a blank capture when using a server session for privacy mode operation during runtime deliver of frames.\lang2057\par
 
-\pard\sl252\slmult1\cf2\f2\fs19\lang1033\par
-
-\pard\keep\keepn\nowidctlpar\s2\sb40\sl276\slmult1\cf1\b\f0\fs26 Sample Programs\par
+\pard\keep\keepn\nowidctlpar\s2\sb40\sl276\slmult1\cf1\b\fs26\lang1033\par
+Sample Programs\par
 \cf0\b0\fs22 Sample applications are built using Visual Studio 2015 (v140). Change accordingly for you version of Visual studio and associated libraries in 'Configuration Properties->General->Platform Toolset'. All sample applications upon successful build copy to the relevant 'bin\\Win32|x64\\Release|Debug' folder. When executing sample projects, ensure the 'Working Directory' within the project (.vcxproj.user) points to the correct directory:\par
 \par
 C++ Samples:\par

@@ -51,7 +51,7 @@ namespace app_decode_encode_sample_2a
 
                string basicAuth = CommandLine._url;
 
-               if (!string.IsNullOrEmpty(_parmsDecode.Open.UserName) && !string.IsNullOrEmpty(_parmsDecode.Open.PassWord))
+               if (!string.IsNullOrEmpty(_parmsDecode.Open.UserName))
                {
                   var index = CommandLine._url.IndexOf("://");
                   if (index != -1)

@@ -16,8 +16,8 @@
 #include <mmtypes.h>
 #include <mmapi.h>
 
-//#define ENCODE_HWND 1
-#define ENCODE_SCREEN 1
+#define ENCODE_HWND 1
+//#define ENCODE_SCREEN 1
 //#define ENCODE_DESKTOP 1
 
 //------------------------------------------------------------------------------

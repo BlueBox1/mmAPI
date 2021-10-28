@@ -31,7 +31,7 @@ namespace MM.SDK
 
          parms.Open.URL = "";
          parms.Open.UserName = "";
-         parms.Open.PassWord = "";
+         parms.Open.PassWord = ""; // important as this can be empty is username only and then needs to be zero length string
          parms.Open.Reserved = 0;
          parms.Open.OpenParms.Size = (uint)Marshal.SizeOf(typeof(MM_CLIENT_OPEN));
          parms.Open.OpenParms.PURL = IntPtr.Zero;
@@ -83,8 +83,8 @@ namespace MM.SDK
 
          parms.Zoom.ZoomParms.Top = 0;
          parms.Zoom.ZoomParms.Left = 0;
-         parms.Zoom.ZoomParms.Right = 0;
-         parms.Zoom.ZoomParms.Bottom = 0;
+         parms.Zoom.ZoomParms.Right = 100;
+         parms.Zoom.ZoomParms.Bottom = 100;
 
          parms.Source.SourceParms.Size = (uint)Marshal.SizeOf(typeof(MM_CLIENT_SOURCE));
          parms.Source.SourceParms.Flags = 0;
@@ -106,31 +106,35 @@ namespace MM.SDK
                mmLibPath = Path.Combine(baseDirectory, @"multimedia\x64\Debug");
             else
                mmLibPath = Path.Combine(baseDirectory, @"multimedia\Win32\Debug");
+
+            Console.WriteLine("GetMultiMediaPath trying PATH: " + mmLibPath);
 #else
             if (_Is64BitProcess)
                mmLibPath = Path.Combine(baseDirectory, @"multimedia\x64\Release");
             else
                mmLibPath = Path.Combine(baseDirectory, @"multimedia\Win32\Release");
 #endif
-            Console.WriteLine("GetMultiMediaPath trying PATH: " + mmLibPath);
-            if (Directory.Exists(mmLibPath))
+                if (Directory.Exists(mmLibPath))
                return mmLibPath;
 #if DEBUG
             if (_Is64BitProcess)
                mmLibPath = Path.Combine(baseDirectory, @"bin\x64\Debug");
             else
                mmLibPath = Path.Combine(baseDirectory, @"bin\Win32\Debug");
+
+            Console.WriteLine("GetMultiMediaPath trying PATH: " + mmLibPath);
 #else
             if (_Is64BitProcess)
                mmLibPath = Path.Combine(baseDirectory, @"bin\x64\Release");
             else
                mmLibPath = Path.Combine(baseDirectory, @"bin\Win32\Release");
 #endif
-            Console.WriteLine("GetMultiMediaPath trying PATH: " + mmLibPath);
             if (Directory.Exists(mmLibPath))
                return mmLibPath;
          }
+#if DEBUG
          Console.WriteLine("GetMultiMediaPath trying PATH: " + baseDirectory);
+#endif
          return baseDirectory;
       }
 

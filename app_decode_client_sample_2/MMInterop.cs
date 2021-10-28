@@ -39,6 +39,7 @@ namespace MM.SDK
       public const int WM_SIZE = 0x0005;
       public const int WM_LBUTTONDOWN = 0x0201;
       public const int WM_WINDOWPOSCHANGED = 0x0047;
+      public const int WM_USER = 0x0400;
 
       [DllImport("kernel32.dll", CallingConvention = CallingConvention.StdCall, SetLastError = true, CharSet = CharSet.Unicode)]
       public static extern bool SetDllDirectory(string lpFileName);
@@ -157,8 +158,8 @@ namespace MM.SDK
             byte[] chars = System.Text.Encoding.Unicode.GetBytes(array[i] + '\0'); 
             if (ptr != IntPtr.Zero) // incase we are just after the size
             {
-               Marshal.Copy(chars, 0, ptr, chars.Length);
-               ptr = new IntPtr(ptr.ToInt64() + chars.Length);
+               IntPtr ptr2 = new IntPtr(ptr.ToInt64() + size);
+               Marshal.Copy(chars, 0, ptr2, chars.Length);
             }
             size += chars.Length;
          }

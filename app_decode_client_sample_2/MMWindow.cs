@@ -49,35 +49,42 @@ namespace MM.SDK
 
       public void SetOSDText(string txt, int wWidth, int wHeight)
       {
-         if (this.InvokeRequired)
-         {
-            Debug.Assert(false);
-            //this.Invoke(new Action<string, int, int>(SetOSDText), txt, wWidth, wHeight);
-            return;
-         }
-         else
-         {
-            if (_osd == null)
+            if (this.InvokeRequired)
             {
-               _osd = new Label();
-               _osd.Location = new Point(0, 0);
-               _osd.ForeColor = Color.WhiteSmoke;
-               _osd.BackColor = Color.Black;
+                Debug.Assert(false);
+                //this.Invoke(new Action<string, int, int>(SetOSDText), txt, wWidth, wHeight);
+                return;
+            }
+            else if (string.IsNullOrEmpty(txt) && _osd != null)
+            {
+                // stop a black top border strip flash caused by _osd.AutoSize = true below
+                this.Controls.Remove(_osd);
+                _osd = null;
+            }
+            else
+            {
+                if (_osd == null)
+                {
+                    _osd = new Label();
+                    _osd.Location = new Point(0, 0);
+                    _osd.ForeColor = Color.WhiteSmoke;
+                    _osd.BackColor = Color.Black;
+                }
 
-               Controls.Add(this._osd); // add it to the form's controls
-               _osd.BringToFront(); // bring it to the front, to display it above the picture box
+                this.Controls.Remove(_osd); // also stop a black top border strip flash caused by _osd.AutoSize = true below
+                // avoid divide by zero errors if called before this.Load event
+                if (wWidth >= 80 && wHeight >= 60)
+                {
+                    _osd.Font = new Font("Arial", 15, FontStyle.Regular);
+                    _osd.AutoSize = false; // if we later choose to try and scale on demand
+                    _osd.Size = new Size(wWidth, wHeight / 10);
+                    _osd.Font = new Font(_osd.Font.FontFamily, _osd.Font.Size, _osd.Font.Style);
+                    _osd.AutoSize = true;
+                    _osd.Text = txt;
+                    Controls.Add(_osd);
+                    _osd.BringToFront(); // bring it to the front, to display it above the picture box
+                }
             }
-            // avoid divide by zero errors if called before this.Load event
-            if (wWidth >= 80 && wHeight >= 60)
-            {
-               _osd.Font = new Font("Arial", 15, FontStyle.Regular);
-               _osd.AutoSize = false; // if we later choose to try and scale on demand
-               _osd.Size = new Size(wWidth, wHeight / 10);
-               _osd.Font = new Font(_osd.Font.FontFamily, _osd.Font.Size, _osd.Font.Style);
-               _osd.AutoSize = true;
-               _osd.Text = txt;
-            }
-         }
       }
       public void SetWindowText(string txt)
       {

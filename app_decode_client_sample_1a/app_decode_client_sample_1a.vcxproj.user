@@ -4,18 +4,29 @@
     <LocalDebuggerCommand>$(ProjectDir)..\bin\$(Platform)\$(Configuration)\$(ProjectName).exe</LocalDebuggerCommand>
     <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
     <RemoteDebuggerCommand>C:\multimedia\debug\$(ProjectName).exe</RemoteDebuggerCommand>
-    <RemoteDebuggerCommandArguments>-url=c:\\multimedia\\video\\1.h264 -x=1920 -y=1080 -w=960 -h=540 -start_time=0 -end_time=0 -cache_video=1000 -speed=3 -repeat=1 -net_tcp=0 -reverse=0 -borders=1 -seperateprocess=1</RemoteDebuggerCommandArguments>
+    <RemoteDebuggerCommandArguments>-url=RTSP://192.168.0.230:554/onvif/profile2/media.smp -x=0 -y=0 -w=960 -h=540 -start_time=0 -end_time=0 -cache_video=1000 -speed=3 -repeat=1 -net_tcp=1 -reverse=0 -borders=1 -seperateprocess=1</RemoteDebuggerCommandArguments>
     <RemoteDebuggerWorkingDirectory>C:\multimedia\debug</RemoteDebuggerWorkingDirectory>
-    <RemoteDebuggerServerName>DEMO-BLUEBOX001:4020</RemoteDebuggerServerName>
+    <RemoteDebuggerServerName>BLUEBOX-0:4020</RemoteDebuggerServerName>
     <RemoteDebuggerDebuggerType>NativeOnly</RemoteDebuggerDebuggerType>
     <DeploymentDirectory>C:\multimedia\debug</DeploymentDirectory>
     <AdditionalFiles>C:\Code\bluebox\SOURCE\multimedia-source\sdk\bin\$(Platform)\$(Configuration)\multimedia.dll</AdditionalFiles>
     <RemoteDebuggerDeployDebugCppRuntime>false</RemoteDebuggerDeployDebugCppRuntime>
-    <LocalDebuggerCommandArguments>-url="D:\\logs\\logs_VIEWSPAN setup\\0x2599500.h264" -x=0 -y=0 -w=640 -h=480 -borders=1</LocalDebuggerCommandArguments>
+    <LocalDebuggerCommandArguments>-url="C:\Users\Swift Canyon\Downloads\maevex videos\maevex videos\420[video].mp4" -x=0 -y=0 -w=960 -h=540 -borders=1 -cache_video=1000  -net_tcp=1</LocalDebuggerCommandArguments>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LocalDebuggerCommandArguments>-url=RTSP://192.168.0.102:7001/b20ce8b2-abe6-2a04-c673-eba194f21fbe</LocalDebuggerCommandArguments>
+    <DebuggerFlavor>WindowsRemoteDebugger</DebuggerFlavor>
+    <LocalDebuggerCommand>$(ProjectDir)..\bin\$(Platform)\$(Configuration)\$(ProjectName).exe</LocalDebuggerCommand>
+    <RemoteDebuggerCommandArguments>-url=c:\multimedia\video\a.mp4 -x=0 -y=0 -w=960 -h=540 -borders=1 -cache_video=1000  -net_tcp=1</RemoteDebuggerCommandArguments>
+    <RemoteDebuggerCommand>$(ProjectDir)..\bin\$(Platform)\$(Configuration)\$(ProjectName).exe</RemoteDebuggerCommand>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <LocalDebuggerCommandArguments>-url=c:\multimedia\video\a.mp4 -x=0 -y=0 -w=960 -h=540 -borders=1 -cache_video=1000  -net_tcp=1</LocalDebuggerCommandArguments>
     <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
     <LocalDebuggerCommand>$(ProjectDir)..\bin\$(Platform)\$(Configuration)\$(ProjectName).exe</LocalDebuggerCommand>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <LocalDebuggerCommandArguments>-url=c:\multimedia\video\a.mp4 -x=0 -y=0 -w=960 -h=540 -borders=1 -cache_video=1000  -net_tcp=1</LocalDebuggerCommandArguments>
+    <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
   </PropertyGroup>
 </Project>

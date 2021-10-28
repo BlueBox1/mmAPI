@@ -35,6 +35,7 @@ namespace MM.SDK
    {
       public MM_CLIENT_OPEN   OpenParms;
       public string           URL;
+      public string           URLSecondary;
       public string           UserName;
       public string           PassWord;
       public uint             Reserved;

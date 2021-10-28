@@ -1,13 +1,13 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <LocalDebuggerCommandArguments>"C:\multimedia\video\nxfish_720_25.h264" 0 0 640 480</LocalDebuggerCommandArguments>
+    <LocalDebuggerCommandArguments>rtsp://192.168.0.84:8554/display1 20 20 640 480</LocalDebuggerCommandArguments>
     <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
     <LocalDebuggerCommand>$(ProjectDir)..\bin\$(Platform)\$(Configuration)\$(ProjectName).exe</LocalDebuggerCommand>
     <RemoteDebuggerCommand>C:\multimedia\debug\$(ProjectName).exe</RemoteDebuggerCommand>
     <RemoteDebuggerCommandArguments>C:\multimedia\video\1.h264 1920 0 640 480</RemoteDebuggerCommandArguments>
     <RemoteDebuggerWorkingDirectory>c:\multimedia\debug</RemoteDebuggerWorkingDirectory>
-    <RemoteDebuggerServerName>BLUEBOX-4:4020</RemoteDebuggerServerName>
+    <RemoteDebuggerServerName>BLUEBOX-0:4020</RemoteDebuggerServerName>
     <RemoteDebuggerDebuggerType>NativeOnly</RemoteDebuggerDebuggerType>
     <DeploymentDirectory>c:\multimedia\debug</DeploymentDirectory>
     <AdditionalFiles>C:\Code\bluebox\SOURCE\multimedia-source\sdk\bin\$(Platform)\$(Configuration)\multimedia.dll</AdditionalFiles>
@@ -23,8 +23,8 @@
     <DebuggerFlavor>WindowsRemoteDebugger</DebuggerFlavor>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <DebuggerFlavor>WindowsRemoteDebugger</DebuggerFlavor>
+    <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
     <LocalDebuggerCommand>$(ProjectDir)..\bin\$(Platform)\$(Configuration)\$(ProjectName).exe</LocalDebuggerCommand>
-    <LocalDebuggerCommandArguments>c:\multimedia\test\a.h264 20 20 640 480</LocalDebuggerCommandArguments>
+    <LocalDebuggerCommandArguments>rtsp://192.168.0.84:8554/display1 20 20 640 480</LocalDebuggerCommandArguments>
   </PropertyGroup>
 </Project>

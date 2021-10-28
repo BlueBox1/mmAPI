@@ -15,8 +15,6 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "app_decode_client_sample_1d
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "app_decode_client_sample_2d", "app_decode_client_sample_2d\app_decode_client_sample_2d.csproj", "{9890E7CC-F436-4293-A8CC-66D5CE2438E5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = ".net_multimedia", ".net_multimedia.wrapper\.net_multimedia.csproj", "{ECA0C117-A374-4DEF-A69A-203FD012EE01}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -87,18 +85,6 @@ Global
 		{9890E7CC-F436-4293-A8CC-66D5CE2438E5}.Release|x64.Build.0 = Release|x64
 		{9890E7CC-F436-4293-A8CC-66D5CE2438E5}.Release|x86.ActiveCfg = Release|x86
 		{9890E7CC-F436-4293-A8CC-66D5CE2438E5}.Release|x86.Build.0 = Release|x86
-		{ECA0C117-A374-4DEF-A69A-203FD012EE01}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{ECA0C117-A374-4DEF-A69A-203FD012EE01}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{ECA0C117-A374-4DEF-A69A-203FD012EE01}.Debug|x64.ActiveCfg = Debug|x64
-		{ECA0C117-A374-4DEF-A69A-203FD012EE01}.Debug|x64.Build.0 = Debug|x64
-		{ECA0C117-A374-4DEF-A69A-203FD012EE01}.Debug|x86.ActiveCfg = Debug|x86
-		{ECA0C117-A374-4DEF-A69A-203FD012EE01}.Debug|x86.Build.0 = Debug|x86
-		{ECA0C117-A374-4DEF-A69A-203FD012EE01}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{ECA0C117-A374-4DEF-A69A-203FD012EE01}.Release|Any CPU.Build.0 = Release|Any CPU
-		{ECA0C117-A374-4DEF-A69A-203FD012EE01}.Release|x64.ActiveCfg = Release|x64
-		{ECA0C117-A374-4DEF-A69A-203FD012EE01}.Release|x64.Build.0 = Release|x64
-		{ECA0C117-A374-4DEF-A69A-203FD012EE01}.Release|x86.ActiveCfg = Release|x86
-		{ECA0C117-A374-4DEF-A69A-203FD012EE01}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
