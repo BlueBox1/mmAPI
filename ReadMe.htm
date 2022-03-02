@@ -21,218 +21,255 @@
 </HEAD>
 
 <body>
-<h3>Accelerated MultiMedia SDK</h3>
-<p></p>
-This MultiMedia API is a video surviellance approach for combining core video hardware acceleration API's from multiple vendors into a single SDK. Transport mechanisms used for the parsing, muxing and network streaming are taken from open source projects including FFMPEG and Live555.<p></p>
-The interface utilizes all available system accelerated hardware architectures at runtime from the following vendors: Intel (MFX Interface) AMD (AMF Interface) NVIDIA (NVDEC\NVENC Interface).<p></p>
-The API will degrade to a CPU CODECS when acceleration methods are either exhausted or unsupported.<p></p>
-Using a combination of low level proprietary API's alongside Microsoft DirectX technology, the MultiMedia interface removes initial and ongoing complexities for video encode, decode, transcode and transport.<p></p>
-Hardware memory allocation and bandwidth negotiation provide high performance gains over traditional methods.<p></p>
-RTSP streaming via Live555 is used in favour of FFMPEG, see programmers guide for full details. Using Live555 for RTSP allows users to specify UTC Absolute Play time in accordance with RTSP RFC 2326 section 3.7 and ONVIF Streaming Specification for RTSP Audio and Video Synchronization section 5.2.1.1.2.<p></p>
-FFMPEG is used for transport and muxing by default for all other protocols.
-<p></p>
-<p></p>
-<hr />
+    <h3>Accelerated MultiMedia SDK</h3>
+    <p></p>
+    This MultiMedia API is an advanced video surveillance approach for combining core video hardware acceleration API's from multiple vendors into a single SDK. Transport mechanisms used for the parsing, muxing and network streaming are taken from open source projects including FFMPEG and Live555.<p></p>
+    The interface utilizes all available system accelerated hardware architectures at runtime from the following vendors: Intel (MFX Interface) AMD (AMF Interface) NVIDIA (NVDEC\NVENC Interface).<p></p>
+    The API will degrade to a CPU CODECS when acceleration methods are either exhausted or unsupported.<p></p>
+    Using a combination of low level proprietary API's alongside Microsoft DirectX technology, the MultiMedia interface removes initial and ongoing complexities for video encode, decode, transcode and transport.<p></p>
+    Hardware memory allocation and bandwidth negotiation provide high performance gains over traditional methods.<p></p>
+    RTSP streaming via Live555 is used in favour of FFMPEG, see programmers guide for full details. Using Live555 for RTSP allows users to specify UTC Absolute Play time in accordance with RTSP RFC 2326 section 3.7 and ONVIF Streaming Specification for RTSP Audio and Video Synchronization section 5.2.1.1.2.<p></p>
+    FFMPEG is used for transport and muxing by default for all other protocols.
+    <p></p>
+    <p></p>
+    <hr />
+    <h3>Links</h3>
+    <p><a href="doc/OpenSourceProjectLicencing.htm"> Open Source Licencing</a></p>
+    <p><a href="doc/mmAPI.htm"> Multimedia API Programmers Guide</a></p>
+    <hr />
 
-<h3>Version</h3>
-<h3>v 4.5.2 - 25/09/2021</h3>
-Allow zero length passwords for URLs with a user name.
-Added support for MS DirectShow 16bit capture formats.
-Added OSD text automatic format placeholders.
-Added cropping for capture inputs.
-All AWP controls are now live, Apply button removed. 
-BBEncoder improvements; privicy mode, scaled desktops, OSD and start menu icon.
-<h3>v 4.5.1 - 25/05/2021</h3>
-Bug fix when using scaled display settings for the placement of window items on the desktop.
-Added integrations connection diagram link to 'AWP->Inputs->Add Server Inputs' page.
-Added support for MS DirectShow capture formats RGB24/NV12/I420/YV12.
-Add 'sequence' feature for input switching within a window item.
-<h3>v 4.5.0 - 25/02/2021</h3>
-Added support for multiple appliances in a single user interface model.
-Added appliance discovery to AWP.
-Added Inputs and Layouts synchronization between discovered appliances.
-Added WebView2 control for Edge Chromium when available.
-Added 'Administrator' and 'Operator' login roles with restrictions.
-Added support for uploading local multimedia images and video in the 'Add Manual Inputs' page.
-Added support for HLS streaming
-Added support for AWP touch interface.
-<h3>v 4.4.4 - 18/12/2020</h3>
-Platform privileges enforced for system network changes
-<h3>v 4.4.3 - 16/12/2020</h3>
-AWP persistent storage of ONVIF input sources
-AWP support for VNC and static image windows
-<h3>v 4.4.2 - 12/12/2020</h3>
-AWP support for Vision AV capture cards
-AWP improved support for ONVIF service
-<h3>v 4.4.1 - 10/12/2020</h3>
-Properties added to AMP browser 'Layout' page for user control
-AWP online licence activation service tailored to display count usage
-<h3>v 4.4.0 - 04/11/2020</h3>
-Initial release of AMP browser 'Layout' page for user control
-<h3>v 4.3.5 - 18/10/2020</h3>
-Hide sever console windows added to AWP
-<h3>v 4.3.4 - 24/09/2020</h3>
-Bug Fix - Setting Network properties in AWP - wait for asynchronous DNS
-<h3>v 4.3.3 - 15/09/2020</h3>
-Added AWP User Login capability
-Added AWP /Debug page for support
-Added AWP download for RTSP Decoder
-Improved firmware update proceedure
-<h3>v 4.3.2 - 03/08/2020</h3>
-Appliance Web Portal (AWP) overhaul and new theme
-Bug Fix - child window closing
-<h3>v 4.3.1 - 29/07/2020</h3>
-Lock displays performed in software
-Bug fix for potential process leak when either No Signal or Invalid decode streaming window
-<h3>v 4.3.0 - 02/07/2020</h3>
-Added support for web API
-mmAPI-mmLoad now accepts MM_LOAD structure for global interface IO settings
-<h3>v 4.2.1 - 19/05/2020</h3>
-Added support for a remote server licencing system for product activation
-<h3>v 4.2.0 - 01/05/2020</h3>
-Added support for plugins accessing the secondary stream
-Added instruction to AWP index.html upon initial load
-<h3>v 4.1.1 - 14/04/2020</h3>
-Bug fix for NVIDIA decode throttling
-Added support for 'percent-encoded' special username & password characters - see 'Multimedia API Programmers Guide.rtf' for further details
-<h3>v 4.1.0 - 25/03/2020</h3>
-Introduced Appliance Web Portal (AWP) for remote configuration of device
-<h3>v 4.0.0 - 24/01/2020</h3>
-Updated app_decode_client_sample_2 with the introduction of MMInterface - state machine calls into mmAPI
-Bug fix for 32-bit mmAPI interface callbacks.
-Bug fixing for NVIDIA decoding when out of available VRAM
-<h3>v 3.9.4 - 05/12/2019</h3>
-Improved scaling of decode window status text
-<h3>v 3.9.3 - 27/11/2019</h3>
-Improved scaling of decode window status text
-Bug fix for UTF8 text.
-<h3>v 3.9.2 - 21/11/2019</h3>
-Added BBTCPServer to force CPU only decoding.
-Decode arteficts no longer seen under drop frame conditions for CPU & GPU decode overload
-<h3>v 3.9.1 - 15/11/2019</h3>
-BBTCPServer now accepts -WEB http(s) post and get commands
-<h3>v 3.9.0 - 08/11/2019</h3>
-Upgrade to FFMPEG v.4.2.1 - allowed FFMPEG to use RTSP absolute time for PLAY commands
-<h3>v 3.8.4 - 28/10/2019</h3>
-Bug fix decoding video from Live555 network streams onto NVIDIA displays
-<h3>v 3.8.3 - 25/10/2019</h3>
-Bug fix opening decode layouts containing dewarp parameters for certain VMS plugins
-<h3>v 3.8.2 - 19/10/2019</h3>
-Smoother playout bug fix for decoding and displaying high resolution video streams on NVIDIA graphics
-MM_CHILD concept introduced for sharing of decoded frames across multiple windows of a single session, this allows unique dewarp and zoom parameter optimization of the same source
-<h3>v 3.8.1 - 17/10/2019</h3>
-Internal release.
-<h3>v 3.8.0 - 15/10/2019</h3>
-Internal release.
-<h3>v 3.7.9 - 03/10/2019</h3>
-Optimization for full desktop decoding and display
-<h3>v 3.7.8 - 01/10/2019</h3>
-Bug fix for hiding taskbar when set to video wall mode.
-<h3>v 3.7.7 - 30/09/2019</h3>
-<p>Capped graeter than 4k x 4k software decodes with display to key frames only
-<p>Fixed startup bug opening many streams at once and timing out to early
-<p>Fixed error text overhang issue when enforcing aspect ratio of source
-<h3>v 3.7.4 - 23/09/2019</h3>
-<p>Temporary cap on upper decode limit of 4096x4096 enforced
-<h3>v 3.7.3 - 19/09/2019</h3>
-<p>Allowed capture encode of entire desktop with maintained AR when sizing to scaled buffer
-<p>Bug fix for high CPU usage when network frames not available
-<h3>v 3.7.2 - 16/09/2019</h3>
-<p>Allowed supporting network tools to connect against malformed SSL certificates over HTTPS
-<h3>v 3.7.1 - 10/09/2019</h3>
-<p>Smoother transition from PAUSE to PLAY when a new RFC2326 start time is specified
-<P>Added error information to encoded stream when unable to scrape/encode application or display
-<h3>v 3.7.0 - 20/08/2019</h3>
-<p>Added a flag reference to mmLoad providing load context, currently includes; activation, DirectX support and logging status, see MM_LOAD_CONTEXT
-<p>Added letter boxing to maintain aspect ratio of source when decoding to a window, MM_CLIENT_REQUEST_VIDEO_TO_DISPLAY
-<h3>v 3.6.5 - 15/08/2019</h3>
-<p>Try FFMPEG (rtsp) streaming if an error is returned from Live555 streaming (RTSP) before returning
-<h3>v 3.6.4 - 22/07/2019</h3>
-<p>Optimised network timeout monitoring
-<h3>v 3.6.3 - 27/06/2019</h3>
-<p>Minimised time we hold a CUDA context for NVIDIA decode - Better FFMPEG Reorting for transport sources
-<h3>v 3.6.2 - 11/06/2019</h3>
-<p>Bug fix for potential FFMPEG transport hang when requesting pause or play under edge conditions
-<p>Bug fix parsing H265 extra data
-<h3>v 3.6.1 - 01/06/2019</h3>
-<p>Added support for app_decode_client_sample_2d - uncompressed and compressed video source callback example
-<h3>v 3.6.0 - 25/05/2019</h3>
-<p>Added support for decoded frame callback (PDataCBKFN) MM_CLIENT_REQUEST_VIDEO_DECODED
-<p>Additional planer support for MM_DATA
-<P>Video Wall installation now disables sleep on power button press
-<p>Updated to the latest Live555 source code v2019.05.21
-<h3>v 3.5.4 - 19/05/2019</h3>
-<p>Added ability to zoom into a decoded video source when displayed in a window
-<h3>v 3.5.3 - 15/05/2019</h3>
-<p>Added app_decode_client_sample_1d for source video callback data without display
-<h3>v 3.5.2 - 12/05/2019</h3>
-<p>Bug fix using DirectX on AMD only systems
-<h3>v 3.5.1 - 02/05/2019</h3>
-<p>Added a lock to the drawing of status messages into the window
-<h3>v 3.5.0 - 22/04/2019</h3>
-<p>Added MM_OVERLAY
-<p>Renamed mmaapi to mmapi
-<p>Renamed parms to params
-<p>Renamed MM_ENCODE_PARMS to MM_SERVER_ENCODE
-<p>Allowed volume licencing
-<h3>v 3.4.1 - 03/04/2019</h3>
-<p>Try DirectX Display and Dewarp when rollover to FFMPEG CPU decode of 4:2:0 formats
-<p>Added various registry overides for video cache and connect timeout
-<h3>v 3.4.0 - 24/03/2019</h3>
-<p>Fisheye dewarp 90 degree bug fix
-<h3>v 3.3.2 - 12/03/2019</h3>
-<p>Task bar removed as part of installation for 'Video Wall Features'
-<h3>v 3.3.1 - 28/02/2019</h3>
-<p>Added -INPUT BBTCPServer option
-<h3>v 3.3.0 - 21/02/2019</h3>
-<p>API Extension. Added basic digest authentication options for server encode
-<p>Added server encode overlay text support via disctionary
-<p>Added callback for connected RTSP server encode clients
-<p>Allowed TCP or UDP client decode to degrade when preferred option is unavailable
-<h3>v 3.2.6 - 01/02/2019</h3>
-<p>Stopped a lengthy thread block allowing mmOpenClient 'invalid URLs' to be closed immediatley by a call to mmClose
-<h3>v 3.2.5 - 12/01/2019</h3>
-<p>Bug fix C# SDK sample builds
-<h3>v 3.2.4 - 08/01/2019</h3>
-<p>Bug fix specifying low CacheVideo size during decode open
-<h3>v 3.2.3 - 04/01/2019</h3>
-<p>Added Watchdog connection timer to app_decode_client_sample_2
-<h3>v 3.2.2 - 18/12/2018</h3>
-<p>Added network timeout notification callback for lost connections</p>
-<p>Allowed Open & Save of .JSON layout files to BBClient application</p>
-<h3>v 3.2.1 - 12/10/2018</h3>
-<p>Internal Intel components updated to latest release. Small memory leak fix</p>
-<h3>v 3.2.0 - 24/08/2018</h3>
-<p>Internet Expolorer now used instead of MSEdge for control reasons</p>
-<h3>v 3.1.0 - 01/08/2018</h3>
-<p>'stream:' and 'browse:' directives added to URL path</p>
-<h3>v 3.0.3 - 10/07/2018</h3>
-<p>Browser control using MS Edge added</p>
-<h3>v 3.0.2 - 03/07/2018</h3>
-<p>Bug fix for NVIDIA decode using DX9 - seen only on Windows 7 systems</p>
-<h3>v 3.0.1 - 15/06/2018</h3>
-<p>Bug fix's applied to v3.0.0</p>
-<h3>v 3.0.0 - 21/05/2018</h3>
-<p>Major Internal change centred around pStream class for decoding header, changes to mmAPI interface</p>
-<h3>v 2.1.0 - 24/04/2018</h3>
-<p>Added FFMPEG decode, remove TimeOut from the API, added RTSPParms</p>
-<h3>v 2.0.0 - 09/03/2018</h3>
-<p>Added FourCC to MM_DATA to allow user callbacks to identify the payload type. Added mmDictionarySet/Get</p>
-<h3>v 1.2.0 - 14/01/2018</h3>
-<p>NVIDIA Dx9 encode and Dx9 decode. structs in mmtypes.h packed to single byte alignment</p>
-<h3>v 1.1.0 -  06/11/2017</h3>
-<p>Added Playback class, added double as timestamp, network cache value to API</p>
-<h3>v 1.0.1 - 06/11/2017</h3>
-<p>Added FFMPEG, encode desktop rectangle, NVIDIA + AMD decode, VCMDecode for Loronix encoders</p>
-<h3>v 1.0.0 - 01/10/2017</h3>
-<p>Initial Internal Release</p>
+    <h3>Version</h3>
+    <h3>v 4.6.0 - 27/02/2022</h3>
+    <br>BBDecoder - Improved mulimedia.dll thread safe procedures for RTSP.
+    <br>AWP - Single process configuration by default.
+    <br>AWP - Added a layout load scheduler.
+    <br>AWP - Allow selection between auto and manually adding network Appliances.
+    <br>AWP - Expose time zone, date and time for changes.
+    <br>AWP - Added a clock window item (app_web_view.exe).
+    <br>AWP - Allow disable / enable of USB ports.
+    <br>AWP - Appliance serial number is now default Appliance name.
+    <br>AWP - Allow PDF file:// display (app_web_view.exe).
+    <br>AWP - Bug fix use floating point arithmetic to size and position windows.
+    <br>AWP - Install is mandated to c:\multimedia folder on WIN32 systems.
+    <br>AWP - Added ability to use TLS/SSL HTTPS encrypted connections.
+    <h3>Version</h3>
+    <h3>v 4.5.2 - 25/09/2021</h3>
+    <br>Allow zero length passwords for URLs with a user name.
+    <br>Added support for MS DirectShow 16bit capture formats.
+    <br>Added OSD text automatic format placeholders.
+    <br>Added cropping for capture inputs.
+    <br>All AWP controls are now live, Apply button removed.
+    <br>BBEncoder improvements; privacy mode, scaled desktops, OSD and start menu icon.
+    <h3>v 4.5.1 - 25/05/2021</h3>
+    <br>Bug fix when using scaled display settings for the placement of window items on the desktop.
+    <br>Added integrations connection diagram link to 'AWP->Inputs->Add Server Inputs' page.
+    <br>Added support for MS DirectShow capture formats RGB24/NV12/I420/YV12.
+    <br>Add 'sequence' feature for input switching within a window item.
+    <h3>v 4.5.0 - 25/02/2021</h3>
+    <br>Added support for multiple appliances in a single user interface model.
+    <br>Added appliance discovery to AWP.
+    <br>Added Inputs and Layouts synchronization between discovered appliances.
+    <br>Added WebView2 control for Edge Chromium when available.
+    <br>Added 'Administrator' and 'Operator' login roles with restrictions.
+    <br>Added support for uploading local multimedia images and video in the 'Add Manual Inputs' page.
+    <br>Added support for HLS streaming
+    <br>Added support for AWP touch interface.
+    <h3>v 4.4.4 - 18/12/2020</h3>
+    Platform privileges enforced for system network changes
+    <h3>v 4.4.3 - 16/12/2020</h3>
+    AWP persistent storage of ONVIF input sources
+    AWP support for VNC and static image windows
+    <h3>v 4.4.2 - 12/12/2020</h3>
+    AWP support for Vision AV capture cards
+    AWP improved support for ONVIF service
+    <h3>v 4.4.1 - 10/12/2020</h3>
+    Properties added to AMP browser 'Layout' page for user control
+    AWP online licence activation service tailored to display count usage
+    <h3>v 4.4.0 - 04/11/2020</h3>
+    Initial release of AMP browser 'Layout' page for user control
+    <h3>v 4.3.5 - 18/10/2020</h3>
+    Hide sever console windows added to AWP
+    <h3>v 4.3.4 - 24/09/2020</h3>
+    Bug Fix - Setting Network properties in AWP - wait for asynchronous DNS
+    <h3>v 4.3.3 - 15/09/2020</h3>
+    Added AWP User Login capability
+    Added AWP /Debug page for support
+    Added AWP download for RTSP Decoder
+    Improved firmware update proceedure
+    <h3>v 4.3.2 - 03/08/2020</h3>
+    Appliance Web Portal (AWP) overhaul and new theme
+    Bug Fix - child window closing
+    <h3>v 4.3.1 - 29/07/2020</h3>
+    Lock displays performed in software
+    Bug fix for potential process leak when either No Signal or Invalid decode streaming window
+    <h3>v 4.3.0 - 02/07/2020</h3>
+    Added support for web API
+    mmAPI-mmLoad now accepts MM_LOAD structure for global interface IO settings
+    <h3>v 4.2.1 - 19/05/2020</h3>
+    Added support for a remote server licencing system for product activation
+    <h3>v 4.2.0 - 01/05/2020</h3>
+    Added support for plugins accessing the secondary stream
+    Added instruction to AWP index.html upon initial load
+    <h3>v 4.1.1 - 14/04/2020</h3>
+    Bug fix for NVIDIA decode throttling
+    Added support for 'percent-encoded' special username & password characters - see 'Multimedia API Programmers Guide.rtf' for further details
+    <h3>v 4.1.0 - 25/03/2020</h3>
+    Introduced Appliance Web Portal (AWP) for remote configuration of device
+    <h3>v 4.0.0 - 24/01/2020</h3>
+    Updated app_decode_client_sample_2 with the introduction of MMInterface - state machine calls into mmAPI
+    Bug fix for 32-bit mmAPI interface callbacks.
+    Bug fixing for NVIDIA decoding when out of available VRAM
+    <h3>v 3.9.4 - 05/12/2019</h3>
+    Improved scaling of decode window status text
+    <h3>v 3.9.3 - 27/11/2019</h3>
+    Improved scaling of decode window status text
+    Bug fix for UTF8 text.
+    <h3>v 3.9.2 - 21/11/2019</h3>
+    Added BBTCPServer to force CPU only decoding.
+    Decode artefacts no longer seen under drop frame conditions for CPU & GPU decode overload
+    <h3>v 3.9.1 - 15/11/2019</h3>
+    BBTCPServer now accepts -WEB http(s) post and get commands
+    <h3>v 3.9.0 - 08/11/2019</h3>
+    Upgrade to FFMPEG v.4.2.1 - allowed FFMPEG to use RTSP absolute time for PLAY commands
+    <h3>v 3.8.4 - 28/10/2019</h3>
+    Bug fix decoding video from Live555 network streams onto NVIDIA displays
+    <h3>v 3.8.3 - 25/10/2019</h3>
+    Bug fix opening decode layouts containing dewarp parameters for certain VMS plugins
+    <h3>v 3.8.2 - 19/10/2019</h3>
+    Smoother playout bug fix for decoding and displaying high resolution video streams on NVIDIA graphics
+    MM_CHILD concept introduced for sharing of decoded frames across multiple windows of a single session, this allows unique dewarp and zoom parameter optimization of the same source
+    <h3>v 3.8.1 - 17/10/2019</h3>
+    Internal release.
+    <h3>v 3.8.0 - 15/10/2019</h3>
+    Internal release.
+    <h3>v 3.7.9 - 03/10/2019</h3>
+    Optimization for full desktop decoding and display
+    <h3>v 3.7.8 - 01/10/2019</h3>
+    Bug fix for hiding taskbar when set to video wall mode.
+    <h3>v 3.7.7 - 30/09/2019</h3>
+    <p>Capped greater than 4k x 4k software decodes with display to key frames only
+    <p>Fixed startup bug opening many streams at once and timing out to early
+    <p>
+        Fixed error text overhang issue when enforcing aspect ratio of source
+        <h3>v 3.7.4 - 23/09/2019</h3>
+    <p>
+        Temporary cap on upper decode limit of 4096x4096 enforced
+        <h3>v 3.7.3 - 19/09/2019</h3>
+    <p>Allowed capture encode of entire desktop with maintained AR when sizing to scaled buffer
+    <p>
+        Bug fix for high CPU usage when network frames not available
+        <h3>v 3.7.2 - 16/09/2019</h3>
+    <p>
+        Allowed supporting network tools to connect against malformed SSL certificates over HTTPS
+        <h3>v 3.7.1 - 10/09/2019</h3>
+    <p>Smoother transition from PAUSE to PLAY when a new RFC2326 start time is specified
+    <P>
+        Added error information to encoded stream when unable to scrape/encode application or display
+        <h3>v 3.7.0 - 20/08/2019</h3>
+    <p>Added a flag reference to mmLoad providing load context, currently includes; activation, DirectX support and logging status, see MM_LOAD_CONTEXT
+    <p>
+        Added letter boxing to maintain aspect ratio of source when decoding to a window, MM_CLIENT_REQUEST_VIDEO_TO_DISPLAY
+        <h3>v 3.6.5 - 15/08/2019</h3>
+    <p>
+        Try FFMPEG (rtsp) streaming if an error is returned from Live555 streaming (RTSP) before returning
+        <h3>v 3.6.4 - 22/07/2019</h3>
+    <p>
+        Optimised network timeout monitoring
+        <h3>v 3.6.3 - 27/06/2019</h3>
+    <p>
+        Minimised time we hold a CUDA context for NVIDIA decode - Better FFMPEG reporting for transport sources
+        <h3>v 3.6.2 - 11/06/2019</h3>
+    <p>Bug fix for potential FFMPEG transport hang when requesting pause or play under edge conditions
+    <p>
+        Bug fix parsing H265 extra data
+        <h3>v 3.6.1 - 01/06/2019</h3>
+    <p>
+        Added support for app_decode_client_sample_2d - uncompressed and compressed video source callback example
+        <h3>v 3.6.0 - 25/05/2019</h3>
+    <p>Added support for decoded frame callback (PDataCBKFN) MM_CLIENT_REQUEST_VIDEO_DECODED
+    <p>Additional planer support for MM_DATA
+    <P>Video Wall installation now disables sleep on power button press
+    <p>
+        Updated to the latest Live555 source code v2019.05.21
+        <h3>v 3.5.4 - 19/05/2019</h3>
+    <p>
+        Added ability to zoom into a decoded video source when displayed in a window
+        <h3>v 3.5.3 - 15/05/2019</h3>
+    <p>
+        Added app_decode_client_sample_1d for source video callback data without display
+        <h3>v 3.5.2 - 12/05/2019</h3>
+    <p>
+        Bug fix using DirectX on AMD only systems
+        <h3>v 3.5.1 - 02/05/2019</h3>
+    <p>
+        Added a lock to the drawing of status messages into the window
+        <h3>v 3.5.0 - 22/04/2019</h3>
+    <p>Added MM_OVERLAY
+    <p>Renamed mmaapi to mmapi
+    <p>Renamed parms to params
+    <p>Renamed MM_ENCODE_PARMS to MM_SERVER_ENCODE
+    <p>
+        Allowed volume licencing
+        <h3>v 3.4.1 - 03/04/2019</h3>
+    <p>Try DirectX Display and Dewarp when rollover to FFMPEG CPU decode of 4:2:0 formats
+    <p>
+        Added various registry overrides for video cache and connect timeout
+        <h3>v 3.4.0 - 24/03/2019</h3>
+    <p>
+        Fisheye dewarp 90 degree bug fix
+        <h3>v 3.3.2 - 12/03/2019</h3>
+    <p>
+        Task bar removed as part of installation for 'Video Wall Features'
+        <h3>v 3.3.1 - 28/02/2019</h3>
+    <p>
+        Added -INPUT BBTCPServer option
+        <h3>v 3.3.0 - 21/02/2019</h3>
+    <p>API Extension. Added basic digest authentication options for server encode
+    <p>Added server encode overlay text support via dictionary
+    <p>Added callback for connected RTSP server encode clients
+    <p>
+        Allowed TCP or UDP client decode to degrade when preferred option is unavailable
+        <h3>v 3.2.6 - 01/02/2019</h3>
+    <p>
+        Stopped a lengthy thread block allowing mmOpenClient 'invalid URLs' to be closed immediately by a call to mmClose
+        <h3>v 3.2.5 - 12/01/2019</h3>
+<p>
+        Bug fix C# SDK sample builds
+        <h3>v 3.2.4 - 08/01/2019</h3>
+    <p>
+        Bug fix specifying low CacheVideo size during decode open
+        <h3>v 3.2.3 - 04/01/2019</h3>
+    <p>
+        Added Watchdog connection timer to app_decode_client_sample_2
+        <h3>v 3.2.2 - 18/12/2018</h3>
+    <p>Added network timeout notification callback for lost connections</p>
+    <p>Allowed Open & Save of .JSON layout files to BBClient application</p>
+    <h3>v 3.2.1 - 12/10/2018</h3>
+    <p>Internal Intel components updated to latest release. Small memory leak fix</p>
+    <h3>v 3.2.0 - 24/08/2018</h3>
+    <p>Internet Explorer now used instead of MSEdge for control reasons</p>
+    <h3>v 3.1.0 - 01/08/2018</h3>
+    <p>'stream:' and 'browse:' directives added to URL path</p>
+    <h3>v 3.0.3 - 10/07/2018</h3>
+    <p>Browser control using MS Edge added</p>
+    <h3>v 3.0.2 - 03/07/2018</h3>
+    <p>Bug fix for NVIDIA decode using DX9 - seen only on Windows 7 systems</p>
+    <h3>v 3.0.1 - 15/06/2018</h3>
+    <p>Bug fix's applied to v3.0.0</p>
+    <h3>v 3.0.0 - 21/05/2018</h3>
+    <p>Major Internal change centred around pStream class for decoding header, changes to mmAPI interface</p>
+    <h3>v 2.1.0 - 24/04/2018</h3>
+    <p>Added FFMPEG decode, remove TimeOut from the API, added RTSPParms</p>
+    <h3>v 2.0.0 - 09/03/2018</h3>
+    <p>Added FourCC to MM_DATA to allow user callbacks to identify the payload type. Added mmDictionarySet/Get</p>
+    <h3>v 1.2.0 - 14/01/2018</h3>
+    <p>NVIDIA Dx9 encode and Dx9 decode. structs in mmtypes.h packed to single byte alignment</p>
+    <h3>v 1.1.0 -  06/11/2017</h3>
+    <p>Added Playback class, added double as timestamp, network cache value to API</p>
+    <h3>v 1.0.1 - 06/11/2017</h3>
+    <p>Added FFMPEG, encode desktop rectangle, NVIDIA + AMD decode, VCMDecode for Loronix encoders</p>
+    <h3>v 1.0.0 - 01/10/2017</h3>
+    <p>Initial Internal Release</p>
 
-
-<hr />
-<h3>Links</h3>
-<p><a href="doc/licence.rtf"> MultiMedia Licencing</a></p>
-<p><a href="doc/licence open source projects.rtf"> Open Source Licencing</a></p>
-<p><a href="doc/errata.rtf"> MultiMedia Errata</a></p>
-<p><a href="doc/Multimedia API Programmers Guide.rtf"> Multimedia API Programmers Guide</a></p>
-</BODY>
+</body>
 </html>

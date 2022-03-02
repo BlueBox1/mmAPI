@@ -5,7 +5,7 @@
     <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
     <LocalDebuggerCommand>$(ProjectDir)..\bin\$(Platform)\$(Configuration)\$(ProjectName).exe</LocalDebuggerCommand>
     <RemoteDebuggerCommand>C:\multimedia\debug\$(ProjectName).exe</RemoteDebuggerCommand>
-    <RemoteDebuggerCommandArguments>C:\multimedia\video\1.h264 1920 0 640 480</RemoteDebuggerCommandArguments>
+    <RemoteDebuggerCommandArguments>rtsp://192.168.0.12:8554/display1 0 0 640 480</RemoteDebuggerCommandArguments>
     <RemoteDebuggerWorkingDirectory>c:\multimedia\debug</RemoteDebuggerWorkingDirectory>
     <RemoteDebuggerServerName>BLUEBOX-0:4020</RemoteDebuggerServerName>
     <RemoteDebuggerDebuggerType>NativeOnly</RemoteDebuggerDebuggerType>

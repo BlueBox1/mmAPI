@@ -11,11 +11,11 @@
     <DeploymentDirectory>C:\multimedia\debug</DeploymentDirectory>
     <AdditionalFiles>C:\Code\bluebox\SOURCE\multimedia-source\sdk\bin\$(Platform)\$(Configuration)\multimedia.dll</AdditionalFiles>
     <RemoteDebuggerDeployDebugCppRuntime>false</RemoteDebuggerDeployDebugCppRuntime>
-    <LocalDebuggerCommandArguments>-url="C:\Users\Swift Canyon\Downloads\maevex videos\maevex videos\420[video].mp4" -x=0 -y=0 -w=960 -h=540 -borders=1 -cache_video=1000  -net_tcp=1</LocalDebuggerCommandArguments>
+    <LocalDebuggerCommandArguments>-url="C:\multimedia\test\Video1.WMV" -x=0 -y=0 -w=960 -h=540 -borders=1 -cache_video=1000  -net_tcp=1</LocalDebuggerCommandArguments>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LocalDebuggerCommandArguments>-url=RTSP://192.168.0.102:7001/b20ce8b2-abe6-2a04-c673-eba194f21fbe</LocalDebuggerCommandArguments>
-    <DebuggerFlavor>WindowsRemoteDebugger</DebuggerFlavor>
+    <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
     <LocalDebuggerCommand>$(ProjectDir)..\bin\$(Platform)\$(Configuration)\$(ProjectName).exe</LocalDebuggerCommand>
     <RemoteDebuggerCommandArguments>-url=c:\multimedia\video\a.mp4 -x=0 -y=0 -w=960 -h=540 -borders=1 -cache_video=1000  -net_tcp=1</RemoteDebuggerCommandArguments>
     <RemoteDebuggerCommand>$(ProjectDir)..\bin\$(Platform)\$(Configuration)\$(ProjectName).exe</RemoteDebuggerCommand>

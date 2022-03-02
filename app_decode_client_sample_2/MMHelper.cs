@@ -87,7 +87,7 @@ namespace MM.SDK
          parms.Zoom.ZoomParms.Bottom = 100;
 
          parms.Source.SourceParms.Size = (uint)Marshal.SizeOf(typeof(MM_CLIENT_SOURCE));
-         parms.Source.SourceParms.Flags = 0;
+         parms.Source.SourceParms.Flags = MM_CLIENT_SOURCE_REQUEST.MM_CLIENT_SOURCE_ASPECT_RATIO;
          parms.Source.SourceParms.BRender = 1;
          parms.Source.SourceParms.BEnforceAR = ar;
       }
